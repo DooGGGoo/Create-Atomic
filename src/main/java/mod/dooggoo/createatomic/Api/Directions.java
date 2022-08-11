@@ -1,4 +1,4 @@
-package mod.dooggoo.createatomic.Api.Radiation;
+package mod.dooggoo.createatomic.Api;
 
 public enum Directions {
 

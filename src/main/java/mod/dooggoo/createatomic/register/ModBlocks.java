@@ -7,6 +7,7 @@ import com.simibubi.create.repack.registrate.util.entry.BlockEntry;
 
 import mod.dooggoo.createatomic.CreateAtomic;
 import mod.dooggoo.createatomic.Blocks.*;
+import mod.dooggoo.createatomic.Blocks.BlockEntity.RbmkBaseTE;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -61,6 +62,7 @@ public class ModBlocks {
                 .properties(p -> p.requiresCorrectToolForDrops())
                 .tag(BlockTags.NEEDS_IRON_TOOL)
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .simpleBlockEntity(RbmkBaseTE::new)
                 .simpleItem()
                 .register();
 

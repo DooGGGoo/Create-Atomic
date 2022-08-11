@@ -26,7 +26,7 @@ public class ModItems {
         .tag(Tags.Items.INGOTS)
         .register();
 
-    public static final ItemEntry<RadioactiveItem> RMBK_FUEL = registrate.item("rmbk_fuel", RadioactiveItem::new)
+    public static final ItemEntry<RadioactiveItem> RBMK_FUEL = registrate.item("rbmk_fuel", RadioactiveItem::new)
         .properties(p -> p.stacksTo(1))
         .onRegister(c -> c.Radiation = 8f)
         .register();

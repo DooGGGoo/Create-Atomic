@@ -3,16 +3,16 @@
     "block.createatomic.uranium_block": "Uranium Block",
     "block.createatomic.raw_uranium_block": "Block Of Raw Uranium",
     "block.createatomic.test_block": "Test Block",
-    "block.createatomic.rmbk_base": "RMBK Base",
-    "block.createatomic.rmbk_fuel_rod": "RMBK Fuel Rod",
-    "block.createatomic.rmbk_control_rod": "RMBK Control Rod",
-    "block.createatomic.rmbk_steam_channel": "RMBK Steam Channel",
+    "block.createatomic.rbmk_base": "RBMK Base",
+    "block.createatomic.rbmk_fuel_rod": "RBMK Fuel Rod",
+    "block.createatomic.rbmk_control_rod": "RBMK Control Rod",
+    "block.createatomic.rbmk_steam_channel": "RBMK Steam Channel",
 
 
     "item.createatomic.raw_uranium": "Raw Uranium",
     "item.createatomic.uranium_ingot": "Uranium Ingot",
     "item.createatomic.uranium_pellet": "Uranium Pellet",
-    "item.createatomic.rmbk_fuel": "RMBK Fuel",
+    "item.createatomic.rbmk_fuel": "RBMK Fuel",
     "item.createatomic.geiger_counter": "Geiger Counter",
     "item.createatomic.protective_plating": "Protective Plating",
 
@@ -28,6 +28,10 @@
     "sounds.geiger_counter_4.subtitle": "Detected medium radiation",
     "sounds.geiger_counter_5.subtitle": "Detected high radiation",
     "sounds.geiger_counter_6.subtitle": "Detected high radiation",
+
+
+    "gui.goggles.rbmkreactorbase.overheated": "Looks like the reactor is overheated! Current heat is: ",
+    "gui.goggles.rbmkreactorbase.heat": "Current heat is: ",
 
     "itemGroup.createatomic": "Create: Atomic"
 

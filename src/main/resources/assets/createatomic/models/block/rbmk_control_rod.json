@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_column",
   "textures": {
-    "end": "createatomic:block/rmbk/rmbk_control_rod_top",
-    "side": "createatomic:block/rmbk/rmbk_base_side"
+    "end": "createatomic:block/rbmk/rbmk_control_rod_top",
+    "side": "createatomic:block/rbmk/rbmk_base_side"
   }
 }
