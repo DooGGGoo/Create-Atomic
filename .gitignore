@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## Based on GitHub's Eclipse .gitignore
 
 run/
@@ -45,4 +46,50 @@ local.properties
 # PDT-specific
 .buildpath
 
+=======
+## Based on GitHub's Eclipse .gitignore
+
+run/
+.gradle/
+build/
+gradle-app.setting
+
+## IntelliJ IDEA
+
+.idea/
+out/
+*.iml
+*.iws
+*.ipr
+
+## Eclipse
+
+eclipse/
+*.pydevproject
+.project
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath
+
+>>>>>>> fab04336d09ed0fe9e7a12de4b23367347165912
 .DS_Store
