@@ -1,0 +1,35 @@
+{
+    "block.createatomic.uranium_ore": "Uranium Ore",
+    "block.createatomic.uranium_block": "Uranium Block",
+    "block.createatomic.raw_uranium_block": "Block Of Raw Uranium",
+    "block.createatomic.test_block": "Test Block",
+    "block.createatomic.rmbk_base": "RMBK Base",
+    "block.createatomic.rmbk_fuel_rod": "RMBK Fuel Rod",
+    "block.createatomic.rmbk_control_rod": "RMBK Control Rod",
+    "block.createatomic.rmbk_steam_channel": "RMBK Steam Channel",
+
+
+    "item.createatomic.raw_uranium": "Raw Uranium",
+    "item.createatomic.uranium_ingot": "Uranium Ingot",
+    "item.createatomic.uranium_pellet": "Uranium Pellet",
+    "item.createatomic.rmbk_fuel": "RMBK Fuel",
+    "item.createatomic.geiger_counter": "Geiger Counter",
+    "item.createatomic.protective_plating": "Protective Plating",
+
+	"item.createatomic.plated_iron_helmet": "Plated Iron Helmet",
+    "item.createatomic.plated_iron_chestplate": "Plated Iron Chestplate",
+    "item.createatomic.plated_iron_leggings": "Plated Iron Leggings",
+    "item.createatomic.plated_iron_boots": "Plated Iron Boots",
+
+
+    "sounds.geiger_counter_1.subtitle": "Detected low radiation",
+    "sounds.geiger_counter_2.subtitle": "Detected low radiation",
+    "sounds.geiger_counter_3.subtitle": "Detected medium radiation",
+    "sounds.geiger_counter_4.subtitle": "Detected medium radiation",
+    "sounds.geiger_counter_5.subtitle": "Detected high radiation",
+    "sounds.geiger_counter_6.subtitle": "Detected high radiation",
+
+    "itemGroup.createatomic": "Create: Atomic"
+
+    
+}

@@ -1,0 +1,43 @@
+{
+    "geiger_counter_1" : {
+        "subtitle": "sounds.geiger_counter_1.subtitle",
+        "sounds": [
+            "createatomic:geiger_counter/geiger_counter_1"
+        ]
+    },
+
+    "geiger_counter_2" : {
+        "subtitle": "sounds.geiger_counter_2.subtitle",
+        "sounds": [
+            "createatomic:geiger_counter/geiger_counter_2"
+        ]
+    },
+
+    "geiger_counter_3" : {
+        "subtitle": "sounds.geiger_counter_3.subtitle",
+        "sounds": [
+            "createatomic:geiger_counter/geiger_counter_3"
+        ]
+    },
+
+    "geiger_counter_4" : {
+        "subtitle": "sounds.geiger_counter_4.subtitle",
+        "sounds": [
+            "createatomic:geiger_counter/geiger_counter_4"
+        ]
+    },
+
+    "geiger_counter_5" : {
+        "subtitle": "sounds.geiger_counter_5.subtitle",
+        "sounds": [
+            "createatomic:geiger_counter/geiger_counter_5"
+        ]
+    },
+
+    "geiger_counter_6" : {
+        "subtitle": "sounds.geiger_counter_6.subtitle",
+        "sounds": [
+            "createatomic:geiger_counter/geiger_counter_6"
+        ]
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "XXX",
+        "XXX",
+        "XXX"
+    ],
+    "key": {
+        "X": {
+            "type": "createatomic:uranium_ingot"
+        }
+    },
+    "result": {
+        "type": "createatomic:uranium_block"
+    }
+}

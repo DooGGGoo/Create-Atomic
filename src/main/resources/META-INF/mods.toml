@@ -1,0 +1,39 @@
+modLoader = "javafml"
+loaderVersion = "[40,)"
+license = "MIT License"
+#issueTrackerURL="http://my.issue.tracker/"
+
+[[mods]]
+modId = "createatomic"
+version = "${file.jarVersion}"
+displayName = "Create: Atomic"
+#updateJSONURL="http://myurl.me/"
+#displayURL="http://example.com/"
+#logoFile="logo.png"
+credits="e"
+#authors = "You"
+description = '''
+big balls cum sus amongus sussy balls
+'''
+
+[[dependencies.createatomic]]
+modId = "forge"
+mandatory = true
+# The version range of the dependency
+versionRange = "[40.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.createatomic]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18.2,1.19)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.createatomic]]
+modId = "create"
+mandatory = true
+versionRange = "[0.5, 0.5.1)"
+ordering = "AFTER"
+side = "BOTH"

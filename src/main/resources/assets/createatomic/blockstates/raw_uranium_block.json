@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": {"model": "createatomic:block/raw_uranium_block"}
+    }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "createatomic:block/rmbk/rmbk_steam_channel_top",
+    "side": "createatomic:block/rmbk/rmbk_base_side"
+  }
+}
