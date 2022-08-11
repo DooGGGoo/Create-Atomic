@@ -1,97 +1,122 @@
 package mod.dooggoo.createatomic.Blocks.BlockEntity;
 
-import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
+import mod.dooggoo.createatomic.Api.Radiation.Directions;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 
 public class RBMK_base extends BlockEntity {
 
     public static float passiveHeatLoss = 16f;
+    public static float overheatThreshold = 1025f;
     public float heat = 16f;
     public static float maxHeat = 1300f;
-    public boolean isReflector = false;
-    public boolean isModerator = false;
-    public boolean isAbsorber = false;
-
-
-    private final ItemStackHandler itemHandler = new ItemStackHandler(1)
-    {
-        @Override
-        protected void onContentsChanged(int slot) {
-            setChanged();
-        }
-    };
-    
-    public LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
 
     public RBMK_base(BlockEntityType<?> type, BlockPos blockPos, BlockState blockState)  {
        super(type, blockPos, blockState);
     }
 
+    // Thanks to Drillgon200 for his rbmk code so i can yoink it
 
+    protected RBMK_base[] heatCache = new RBMK_base[4];
 
+    private BlockPos pos = this.getBlockPos();
 
-
-
-
-//#region Fucking wall of overrides
-    @Nonnull
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nonnull Direction dir) {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            return lazyItemHandler.cast();
-        }
-        return super.getCapability(capability, dir);
-    }
-
-    @Override
-    public void onLoad()
+    public static final Directions[] directions = new Directions[]
     {
-        super.onLoad();
-        lazyItemHandler = LazyOptional.of(() -> itemHandler);
-    }
+        Directions.NORTH, 
+        Directions.SOUTH, 
+        Directions.EAST, 
+        Directions.WEST, 
+    };
 
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        lazyItemHandler.invalidate();
-    }
-
-    @Override
-    public void saveAdditional(@Nonnull CompoundTag tag) {
-        tag.put("inventory", itemHandler.serializeNBT());
-        super.saveAdditional(tag);
-    }
-
-    @Override
-    public void load(CompoundTag nbt)
+    private void transferHeat()
     {
-        super.load(nbt);
-        itemHandler.deserializeNBT(nbt.getCompound("inventory"));
-    }
-//#endregion
+        List<RBMK_base> connected = new ArrayList<>();
+        connected.add(this);
+        float heatTotal = this.heat;
 
-    public void drops()
-    {
-        if (!level.isClientSide)
+        int i = 0;
+        for(Directions dir : directions)
         {
-            SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
-            for (int i = 0; i < itemHandler.getSlots(); i++)
+            if(heatCache[i] != null)
             {
-                inventory.setItem(i, itemHandler.getStackInSlot(i));
+                heatCache[i] = null;
+            }
+
+            if(heatCache[i] == null)
+            {
+                BlockEntity blockEntity = this.level.getBlockEntity(new BlockPos(pos.getX() + dir.offsetX, pos.getY(), pos.getZ() + dir.offsetZ));
+                
+                if (blockEntity instanceof RBMK_base)
+                {
+                    RBMK_base base = (RBMK_base) blockEntity;
+                    heatCache[i] = base;
+                }
+            }
+
+            i++;
+        }
+
+        for (RBMK_base base : heatCache)
+        {
+            if (base != null)
+            {
+                connected.add(base);
+                heatTotal += base.heat;
             }
         }
+
+        int memb = connected.size();
+        float stepSize = 0.2f;
+
+        if (memb > 1)
+        {
+            float targetHeat = heatTotal / (float) memb;
+            for (RBMK_base rbmk : connected)
+            {
+                float delta = targetHeat - rbmk.heat;
+                rbmk.heat += delta * stepSize;
+            }
+            //this.markDirty();
+        }
+    }
+
+    protected void passiveCooling()
+    {
+        this.heat -= passiveHeatLoss;
+        if (this.heat < 16)
+        {
+            this.heat = 16;
+        }
+    }
+
+    public void onOverheat()
+    {
+        if (this.heat > overheatThreshold)
+        {
+            if(level.isClientSide())
+            {
+                //
+            }
+        }
+    }
+
+
+
+    @Override
+    protected void saveAdditional(CompoundTag nbt) {
+        nbt.putFloat("heat", this.heat);
+    }
+
+    @Override
+    public void load(CompoundTag nbt) {
+        this.heat = nbt.getFloat("heat");
     }
 
 }
