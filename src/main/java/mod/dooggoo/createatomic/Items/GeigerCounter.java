@@ -1,6 +1,6 @@
-package mod.dooggoo.createatomic.Items;
+package mod.dooggoo.createatomic.items;
 
-import mod.dooggoo.createatomic.Api.Radiation.PlayerRadiation.PlayerRadiationDataProvider;
+import mod.dooggoo.createatomic.api.radiation.playerradiation.PlayerRadiationDataProvider;
 import mod.dooggoo.createatomic.register.ModSounds;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -21,7 +21,7 @@ public class GeigerCounter extends Item {
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) 
     {
-        if(entity instanceof Player && !level.isClientSide) 
+        if(entity instanceof Player) 
         {
             Player player = (Player) entity;
             player.getCapability(PlayerRadiationDataProvider.PLAYER_RADIATION).ifPresent(data -> 

@@ -1,9 +1,10 @@
-package mod.dooggoo.createatomic.Api.Radiation.PlayerRadiation;
+package mod.dooggoo.createatomic.api.radiation.playerradiation;
 
 import mod.dooggoo.createatomic.BuildConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
@@ -38,17 +39,24 @@ public class PlayerRadiationEvents
             });
         }
     }
+    private static int t = 0;
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event)
     {
-     
-    }
+        if (event.phase == TickEvent.Phase.START)
+        {
+            Player player = event.player;
+            float playerRadiation = player.getCapability(PlayerRadiationDataProvider.PLAYER_RADIATION).map(PlayerRadiationData::getRadiation).orElse(0.0F);
+            Level level = player.getLevel();
+            t += t;
 
-    @SuppressWarnings("unused")
-    private void applyRadiationEffects()
-    {
-        // TODO
+            if (t >= 10)
+            {
+                t = 0;
+                PlayerRadiationEffects.applyRadiationEffects(playerRadiation, player, level);
+            }
+        }
     }
 
     @SubscribeEvent

@@ -1,4 +1,4 @@
-package mod.dooggoo.createatomic.Items;
+package mod.dooggoo.createatomic.items;
 
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ArmorItem;

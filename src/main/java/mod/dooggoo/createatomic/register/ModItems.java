@@ -1,9 +1,9 @@
 package mod.dooggoo.createatomic.register;
 
 import mod.dooggoo.createatomic.CreateAtomic;
-import mod.dooggoo.createatomic.Items.GeigerCounter;
-import mod.dooggoo.createatomic.Items.PlatedIronArmorItem;
-import mod.dooggoo.createatomic.Items.RadioactiveItem;
+import mod.dooggoo.createatomic.items.GeigerCounter;
+import mod.dooggoo.createatomic.items.PlatedIronArmorItem;
+import mod.dooggoo.createatomic.items.RadioactiveItem;
 
 import com.simibubi.create.AllTags;
 import com.simibubi.create.foundation.data.CreateRegistrate;
@@ -15,24 +15,34 @@ import net.minecraftforge.common.Tags;
 
 public class ModItems {
     private static final CreateRegistrate registrate = CreateAtomic.registrate()
-            .creativeModeTab(() -> AtomicCreativeModeTab.MAIN_TAB);
+            .creativeModeTab(() -> ModCreativeModeTab.MAIN_TAB);
     
     public static final ItemEntry<Item> RAW_URANIUM = registrate.item("raw_uranium", Item::new)
         .tag(Tags.Items.RAW_MATERIALS)
         .register();
     
     public static final ItemEntry<RadioactiveItem> URANIUM_INGOT = registrate.item("uranium_ingot", RadioactiveItem::new)
-        .onRegister(c -> c.Radiation = 1f)
+        .onRegister(c -> c.Radiation = .25f)
         .tag(Tags.Items.INGOTS)
         .register();
 
-    public static final ItemEntry<RadioactiveItem> RBMK_FUEL = registrate.item("rbmk_fuel", RadioactiveItem::new)
-        .properties(p -> p.stacksTo(1))
-        .onRegister(c -> c.Radiation = 8f)
+    public static final ItemEntry<RadioactiveItem> HOT_URANIUM_INGOT = registrate.item("hot_uranium_ingot", RadioactiveItem::new)
+        .onRegister(c -> c.Radiation = .25f)
+        .tag(Tags.Items.INGOTS)
         .register();
 
-    public static final ItemEntry<RadioactiveItem> URANIUM_PELLET = registrate.item("uranium_pellet", RadioactiveItem::new)
+    public static final ItemEntry<RadioactiveItem> URANIUM_NUGGET = registrate.item("uranium_nugget", RadioactiveItem::new)
+        .onRegister(c -> c.Radiation = 0.02f)
+        .tag(Tags.Items.NUGGETS)
+        .register();
+
+    public static final ItemEntry<RadioactiveItem> RBMK_FUEL = registrate.item("rbmk_fuel", RadioactiveItem::new)
+        .properties(p -> p.stacksTo(16))
         .onRegister(c -> c.Radiation = 2f)
+        .register();
+
+    public static final ItemEntry<RadioactiveItem> ENRICHED_URANIUM = registrate.item("enriched_uranium", RadioactiveItem::new)
+        .onRegister(c -> c.Radiation = 1.2f)
         .register();
     
     public static final ItemEntry<GeigerCounter> GEIGER_COUNTER = registrate.item("geiger_counter", GeigerCounter::new)

@@ -1,4 +1,4 @@
-package mod.dooggoo.createatomic.Blocks.BlockEntity;
+package mod.dooggoo.createatomic.blocks.BlockEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
 import com.simibubi.create.foundation.utility.Lang;
 
-import mod.dooggoo.createatomic.Api.Directions;
+import mod.dooggoo.createatomic.api.Directions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;

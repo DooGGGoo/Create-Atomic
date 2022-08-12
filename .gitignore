@@ -6,6 +6,9 @@ run/
 build/
 gradle-app.setting
 
+## Other
+ignore/
+
 ## VSCode
 .vscode/
 

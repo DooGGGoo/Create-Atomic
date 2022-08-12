@@ -1,4 +1,4 @@
-package mod.dooggoo.createatomic.Api.Radiation.PlayerRadiation;
+package mod.dooggoo.createatomic.api.radiation.playerradiation;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

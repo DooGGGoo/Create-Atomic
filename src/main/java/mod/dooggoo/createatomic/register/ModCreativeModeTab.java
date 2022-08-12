@@ -7,9 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
-public class AtomicCreativeModeTab  extends CreativeModeTab {
+public class ModCreativeModeTab  extends CreativeModeTab {
     private final Supplier<ItemStack> suppl;
-    private AtomicCreativeModeTab (final String name, final Supplier<ItemStack> supplier) {
+    private ModCreativeModeTab (final String name, final Supplier<ItemStack> supplier) {
         super(name);
         suppl = supplier;
     }
@@ -20,6 +20,6 @@ public class AtomicCreativeModeTab  extends CreativeModeTab {
 
     public static final String TAB_NAME = "createatomic";
 
-    public static final CreativeModeTab MAIN_TAB = new AtomicCreativeModeTab(
+    public static final CreativeModeTab MAIN_TAB = new ModCreativeModeTab(
         TAB_NAME, () -> new ItemStack(ModBlocks.URANIUM_BLOCK.get()));
 }

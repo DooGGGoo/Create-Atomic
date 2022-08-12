@@ -1,4 +1,4 @@
-package mod.dooggoo.createatomic.Api;
+package mod.dooggoo.createatomic.api;
 
 public enum Directions {
 

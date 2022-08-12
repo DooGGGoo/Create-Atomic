@@ -6,8 +6,8 @@ import com.simibubi.create.foundation.data.SharedProperties;
 import com.simibubi.create.repack.registrate.util.entry.BlockEntry;
 
 import mod.dooggoo.createatomic.CreateAtomic;
-import mod.dooggoo.createatomic.Blocks.*;
-import mod.dooggoo.createatomic.Blocks.BlockEntity.RbmkBaseTE;
+import mod.dooggoo.createatomic.blocks.*;
+import mod.dooggoo.createatomic.blocks.BlockEntity.RbmkBaseTE;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -17,7 +17,7 @@ import net.minecraftforge.common.Tags;
 public class ModBlocks {
 
         private static final CreateRegistrate registrate = CreateAtomic.registrate()
-                .creativeModeTab(() -> AtomicCreativeModeTab.MAIN_TAB);
+                .creativeModeTab(() -> ModCreativeModeTab.MAIN_TAB);
 
         public static final BlockEntry<TestBlock> TEST_BLOCK = registrate.block("test_block", TestBlock::new)
                 .initialProperties(SharedProperties::softMetal)
@@ -62,8 +62,8 @@ public class ModBlocks {
                 .properties(p -> p.requiresCorrectToolForDrops())
                 .tag(BlockTags.NEEDS_IRON_TOOL)
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE)
-                .simpleBlockEntity(RbmkBaseTE::new)
                 .simpleItem()
+                .simpleBlockEntity(RbmkBaseTE::new)
                 .register();
 
         public static final BlockEntry<Block> RBMK_CONTROL_ROD = registrate.block("rbmk_control_rod", Block::new)
@@ -87,6 +87,26 @@ public class ModBlocks {
                 .register();
 
         public static final BlockEntry<Block> RBMK_STEAM_CHANNEL = registrate.block("rbmk_steam_channel", Block::new)
+                .initialProperties(() -> ModBlocks.RBMK_BASE.get())
+                .properties(p -> p.sound(SoundType.NETHERITE_BLOCK))
+                .properties(p -> p.strength(3f, 4f))
+                .properties(p -> p.requiresCorrectToolForDrops())
+                .tag(BlockTags.NEEDS_IRON_TOOL)
+                .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .simpleItem()
+                .register();
+
+        public static final BlockEntry<Block>RBMK_MODERATOR = registrate.block("rbmk_moderator", Block::new)
+                .initialProperties(() -> ModBlocks.RBMK_BASE.get())
+                .properties(p -> p.sound(SoundType.NETHERITE_BLOCK))
+                .properties(p -> p.strength(3f, 4f))
+                .properties(p -> p.requiresCorrectToolForDrops())
+                .tag(BlockTags.NEEDS_IRON_TOOL)
+                .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .simpleItem()
+                .register();
+
+        public static final BlockEntry<Block> RBMK_REFLECTOR = registrate.block("rbmk_reflector", Block::new)
                 .initialProperties(() -> ModBlocks.RBMK_BASE.get())
                 .properties(p -> p.sound(SoundType.NETHERITE_BLOCK))
                 .properties(p -> p.strength(3f, 4f))

@@ -1,8 +1,8 @@
-package mod.dooggoo.createatomic.Items;
+package mod.dooggoo.createatomic.items;
 
 import java.util.List;
 
-import mod.dooggoo.createatomic.Api.Radiation.PlayerRadiation.PlayerRadiationDataProvider;
+import mod.dooggoo.createatomic.api.radiation.playerradiation.PlayerRadiationDataProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;

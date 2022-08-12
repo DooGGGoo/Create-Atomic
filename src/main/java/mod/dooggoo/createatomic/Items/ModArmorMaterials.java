@@ -1,4 +1,4 @@
-package mod.dooggoo.createatomic.Items;
+package mod.dooggoo.createatomic.items;
 
 
 import java.util.function.Supplier;

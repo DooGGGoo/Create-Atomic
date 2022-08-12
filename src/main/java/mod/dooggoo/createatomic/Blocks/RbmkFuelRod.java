@@ -1,4 +1,4 @@
-package mod.dooggoo.createatomic.Blocks;
+package mod.dooggoo.createatomic.blocks;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;

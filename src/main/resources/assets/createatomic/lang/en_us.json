@@ -7,11 +7,14 @@
     "block.createatomic.rbmk_fuel_rod": "RBMK Fuel Rod",
     "block.createatomic.rbmk_control_rod": "RBMK Control Rod",
     "block.createatomic.rbmk_steam_channel": "RBMK Steam Channel",
+	"block.createatomic.rbmk_moderator": "RBMK Neutron Moderator",
+    "block.createatomic.rbmk_reflector": "RBMK Neutron Reflector",
 
 
     "item.createatomic.raw_uranium": "Raw Uranium",
     "item.createatomic.uranium_ingot": "Uranium Ingot",
-    "item.createatomic.uranium_pellet": "Uranium Pellet",
+    "item.createatomic.uranium_nugget": "Uranium Nugget",
+	"item.createatomic.enriched_uranium": "Enriched Uranium",
     "item.createatomic.rbmk_fuel": "RBMK Fuel",
     "item.createatomic.geiger_counter": "Geiger Counter",
     "item.createatomic.protective_plating": "Protective Plating",
@@ -32,6 +35,9 @@
 
     "gui.goggles.rbmkreactorbase.overheated": "Looks like the reactor is overheated! Current heat is: ",
     "gui.goggles.rbmkreactorbase.heat": "Current heat is: ",
+
+    "death.attack.radiation": "Died from radiation poisoning",
+    "death.attack.radiationpoisoning.player": "Died from radiation poisoning",
 
     "itemGroup.createatomic": "Create: Atomic"
 
