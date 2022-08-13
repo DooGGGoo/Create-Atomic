@@ -1,6 +1,7 @@
 package mod.dooggoo.createatomic.api.radiation.playerradiation;
 
 import mod.dooggoo.createatomic.BuildConfig;
+import mod.dooggoo.createatomic.api.radiation.playerradiation.PlayerRadiationDataProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;

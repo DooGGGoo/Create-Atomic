@@ -1,5 +1,6 @@
 {
     "variants": {
-        "": {"model": "createatomic:block/rbmk_fuel_rod"}
+        "empty": {"model": "createatomic:block/rbmk_fuel_rod_empty"},
+		"with_fuel": {"model": "createatomic:block/rbmk_fuel_rod"}
     }
 }

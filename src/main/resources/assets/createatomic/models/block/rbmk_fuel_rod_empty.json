@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:block/cube_column",
   "textures": {
-    "end": "createatomic:block/rbmk/rbmk_fuel_rod_top",
+    "end": "createatomic:block/rbmk/rbmk_fuel_rod_empty_top",
     "side": "createatomic:block/rbmk/rbmk_base_side"
   }
 }
