@@ -8,7 +8,6 @@ import com.simibubi.create.repack.registrate.util.entry.BlockEntry;
 import mod.dooggoo.createatomic.CreateAtomic;
 import mod.dooggoo.createatomic.blocks.*;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkBase;
-import mod.dooggoo.createatomic.blocks.rbmk.RbmkBaseTE;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;

@@ -4,55 +4,53 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
-import com.simibubi.create.foundation.tileEntity.SmartTileEntity;
-import com.simibubi.create.foundation.tileEntity.TileEntityBehaviour;
 import com.simibubi.create.foundation.utility.Lang;
 
 import mod.dooggoo.createatomic.BuildConfig;
-import mod.dooggoo.createatomic.CreateAtomic;
 import mod.dooggoo.createatomic.api.Directions;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.Explosion.BlockInteraction;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class RbmkBaseTE extends SmartTileEntity implements IHaveGoggleInformation {
+public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{    
+    public RbmkBaseTE(BlockEntityType<?> type, BlockPos blockPos, BlockState blockState)  {
+        super(type, blockPos, blockState);
+    }
 
-    public static float passiveHeatLoss = 16f;
+    public static float passiveHeatLoss = .16f;
     public static float overheatThreshold = 1025f;
     public float heat = 16f;
     public static float maxHeat = 1300f;
 
-    public RbmkBaseTE(BlockEntityType<?> type, BlockPos blockPos, BlockState blockState)  {
-       super(type, blockPos, blockState);
-    }
-
-    @Override
-    public void tick() {
-        if (!level.isClientSide)
-        { 
-            transferHeat();
-            passiveCooling();
-            if (heat > overheatThreshold) {
-                onOverheat();
-            }
-            if (heat > maxHeat) {
-                onMeltdown();
-            }
-            CreateAtomic.LOGGER.debug("RbmkBaseTe at: " + pos + " : heat: " + heat);
+    public static void tick(Level Level, BlockPos Pos, BlockState State, RbmkBaseTE be) 
+    {
+        if(!be.hasLevel() || be.pos == null){
+            be.setLevel(Level);
+            be.pos = Pos;
         }
-        super.tick();
+
+        be.transferHeat();
+        be.passiveCooling();
+        if (be.heat > overheatThreshold) {
+            be.onOverheat();
+        }
+        if (be.heat > maxHeat) {
+            be.onMeltdown();
+        }
     }
-
-
 
     // Thanks to Drillgon200 for his rbmk code so i can yoink it
 
@@ -68,12 +66,10 @@ public class RbmkBaseTE extends SmartTileEntity implements IHaveGoggleInformatio
         Directions.WEST, 
     };
 
-    /*
-     *  Gotta move dat heat up!
-     */
-
     private void transferHeat()
     {
+        if (level == null)
+        return;
         List<RbmkBaseTE> connected = new ArrayList<>();
         connected.add(this);
         float heatTotal = this.heat;
@@ -87,7 +83,7 @@ public class RbmkBaseTE extends SmartTileEntity implements IHaveGoggleInformatio
 
             if(heatCache[i] == null)
             {
-                BlockEntity blockEntity = this.level.getBlockEntity(new BlockPos(pos.getX() + dir.offsetX, pos.getY(), pos.getZ() + dir.offsetZ));
+                BlockEntity blockEntity = level.getBlockEntity(new BlockPos(pos.getX() + dir.offsetX, pos.getY(), pos.getZ() + dir.offsetZ));
                 
                 if (blockEntity instanceof RbmkBaseTE){
                     RbmkBaseTE base = (RbmkBaseTE) blockEntity;
@@ -119,19 +115,15 @@ public class RbmkBaseTE extends SmartTileEntity implements IHaveGoggleInformatio
         }
     }
 
-    protected void passiveCooling()
-    {
+    protected void passiveCooling(){
         this.heat -= passiveHeatLoss;
         if (this.heat < 16){
             this.heat = 16;
         }
     }
 
-    public void onOverheat()
-    {
-        if(level.isClientSide()){
-            level.addParticle(ParticleTypes.LARGE_SMOKE, worldPosition.getX() * (level.random.nextFloat() * .2f), worldPosition.getY() + 0.5f, worldPosition.getZ() * (level.random.nextFloat() * .2f), level.random.nextFloat() * .1f, 3.5f * (level.random.nextFloat() * .25f), level.random.nextFloat() * .1f);
-        }
+    public void onOverheat(){
+        level.addParticle(ParticleTypes.LARGE_SMOKE, worldPosition.getX() * (level.random.nextFloat() * .2f), worldPosition.getY() + 0.5f, worldPosition.getZ() * (level.random.nextFloat() * .2f), level.random.nextFloat() * .1f, 3.5f * (level.random.nextFloat() * .25f), level.random.nextFloat() * .1f);
         level.playLocalSound(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), SoundEvents.CANDLE_EXTINGUISH, SoundSource.BLOCKS, 1.3f, 1.18f - (level.random.nextFloat() * .2f), true);
     }
 
@@ -146,51 +138,35 @@ public class RbmkBaseTE extends SmartTileEntity implements IHaveGoggleInformatio
         }
     }
 
-	@Override
+    @Override
 	public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
-        if (this.heat <= 16f){
-            return true;
+        if(heat < overheatThreshold){
+            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(BuildConfig.MODID + ".tooltip.rbmkbase.heat").withStyle(ChatFormatting.GRAY)));
+            tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + this.heat + " ").withStyle(ChatFormatting.GOLD)));
+                    //.withStyle(ChatFormatting.AQUA)).append(Lang.translateDirect("gui.goggles.at_current_speed").withStyle(ChatFormatting.DARK_GRAY)));
         }
-        else if (this.heat >= overheatThreshold)
-        {
-            Lang.translate(BuildConfig.MODID + "gui.goggles.rbmkreactorbase.overheated")
-			.add(Lang.number(this.heat))
-				.style(ChatFormatting.DARK_RED)
-                .style(ChatFormatting.BOLD)
-			.style(ChatFormatting.GRAY)
-			.forGoggles(tooltip, 1);
-            return true;
+        else{
+            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(BuildConfig.MODID + ".tooltip.rbmkbase.overheat").withStyle(ChatFormatting.GRAY)));
+            tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + this.heat + " ").withStyle(ChatFormatting.RED)));
+                    //.withStyle(ChatFormatting.AQUA)).append(Lang.translateDirect("gui.goggles.at_current_speed").withStyle(ChatFormatting.DARK_GRAY)));
         }
-        else
-        {
-            Lang.translate(BuildConfig.MODID + "gui.goggles.rbmkreactorbase.heat")
-            .add(Lang.number(this.heat))
-                .style(ChatFormatting.GOLD)
-                .style(ChatFormatting.BOLD)
-            .style(ChatFormatting.GRAY)
-            .forGoggles(tooltip, 1);
-            return true;
-        }
+		return true;
 	}
 
     @Override
-    protected void write(CompoundTag nbt, boolean clientPacket) {
-        super.write(nbt, clientPacket);
+    protected void saveAdditional(CompoundTag nbt) {
+        super.saveAdditional(nbt);
         nbt.putFloat("heat", this.heat);
     }
 
     @Override
-    public void read(CompoundTag nbt, boolean clientPacket) {
-        super.read(nbt, clientPacket);
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
         this.heat = nbt.getFloat("heat");
     }
 
     @Override
     public void setRemoved(){
         super.setRemoved();
-    }
-
-    @Override
-    public void addBehaviours(List<TileEntityBehaviour> behaviours) {
     }
 }
