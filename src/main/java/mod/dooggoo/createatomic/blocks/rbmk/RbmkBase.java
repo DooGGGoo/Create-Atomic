@@ -1,7 +1,5 @@
 package mod.dooggoo.createatomic.blocks.rbmk;
 
-import javax.annotation.Nullable;
-
 import mod.dooggoo.createatomic.register.ModTiles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;

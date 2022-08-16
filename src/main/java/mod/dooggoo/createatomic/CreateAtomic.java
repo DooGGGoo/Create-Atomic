@@ -3,6 +3,7 @@ package mod.dooggoo.createatomic;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.repack.registrate.util.nullness.NonNullSupplier;
 
+import mod.dooggoo.createatomic.network.ModNetworkPackets;
 import mod.dooggoo.createatomic.register.*;
 import mod.dooggoo.createatomic.register.config.ModConfigs;
 import net.minecraftforge.api.distmarker.Dist;
@@ -27,6 +28,7 @@ public class CreateAtomic {
 	public CreateAtomic() {
 		modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		//CreateRegistrate r = REGISTRATE.get();
+		ModNetworkPackets.register();
 		ModItems.register();
 		ModBlocks.register();
 		ModEntities.register();

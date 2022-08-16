@@ -2,6 +2,7 @@ package mod.dooggoo.createatomic.register;
 
 import mod.dooggoo.createatomic.CreateAtomic;
 import mod.dooggoo.createatomic.items.GeigerCounter;
+import mod.dooggoo.createatomic.items.HeatDebug;
 import mod.dooggoo.createatomic.items.PlatedIronArmorItem;
 import mod.dooggoo.createatomic.items.RadioactiveItem;
 
@@ -11,6 +12,7 @@ import com.simibubi.create.repack.registrate.util.entry.ItemEntry;
 
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.common.Tags;
 
 public class ModItems {
@@ -51,6 +53,11 @@ public class ModItems {
 
     public static final ItemEntry<Item> PROTECTIVE_PLATING = registrate.item("protective_plating", Item::new)
         .tag(AllTags.AllItemTags.PLATES.tag)
+        .register();
+
+    public static final ItemEntry<HeatDebug> HEAT_DEBUG = registrate.item("heat_debug", HeatDebug::new)
+        .properties(p -> p.rarity(Rarity.EPIC))
+        .properties(p -> p.stacksTo(1))
         .register();
 
     //Armor items
