@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[40,)"
-license = "MIT License"
+license = "GPL-3.0 License"
 #issueTrackerURL="http://my.issue.tracker/"
 
 [[mods]]
@@ -13,7 +13,7 @@ displayName = "Create: Atomic"
 credits="e"
 #authors = "You"
 description = '''
-big balls cum sus amongus sussy balls
+e
 '''
 
 [[dependencies.createatomic]]

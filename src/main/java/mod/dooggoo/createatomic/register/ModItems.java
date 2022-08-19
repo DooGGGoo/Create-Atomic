@@ -5,6 +5,7 @@ import mod.dooggoo.createatomic.items.GeigerCounter;
 import mod.dooggoo.createatomic.items.HeatDebug;
 import mod.dooggoo.createatomic.items.PlatedIronArmorItem;
 import mod.dooggoo.createatomic.items.RadioactiveItem;
+import mod.dooggoo.createatomic.items.RbmkFuelItem;
 
 import com.simibubi.create.AllTags;
 import com.simibubi.create.foundation.data.CreateRegistrate;
@@ -28,18 +29,13 @@ public class ModItems {
         .tag(Tags.Items.INGOTS)
         .register();
 
-    public static final ItemEntry<RadioactiveItem> HOT_URANIUM_INGOT = registrate.item("hot_uranium_ingot", RadioactiveItem::new)
-        .onRegister(c -> c.Radiation = .25f)
-        .tag(Tags.Items.INGOTS)
-        .register();
-
     public static final ItemEntry<RadioactiveItem> URANIUM_NUGGET = registrate.item("uranium_nugget", RadioactiveItem::new)
         .onRegister(c -> c.Radiation = 0.02f)
         .tag(Tags.Items.NUGGETS)
         .register();
 
-    public static final ItemEntry<RadioactiveItem> RBMK_FUEL = registrate.item("rbmk_fuel", RadioactiveItem::new)
-        .properties(p -> p.stacksTo(16))
+    public static final ItemEntry<RbmkFuelItem> RBMK_FUEL = registrate.item("rbmk_fuel", RbmkFuelItem::new)
+        .properties(p -> p.stacksTo(1))
         .onRegister(c -> c.Radiation = 2f)
         .register();
 

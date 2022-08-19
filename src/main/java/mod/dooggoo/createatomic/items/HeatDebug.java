@@ -30,7 +30,7 @@ public class HeatDebug extends Item{
            BlockState blockstate = level.getBlockState(blockpos);
            if (blockstate.is(ModBlocks.RBMK_BASE.get())) {
                RbmkBaseTE be = (RbmkBaseTE) level.getBlockEntity(blockpos);
-                be.Heat += 200f;
+                be.heat += 200f;
            }
         }
         return InteractionResult.sidedSuccess(level.isClientSide);

@@ -31,9 +31,9 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{
         super(type, blockPos, blockState);
     }
 
-    public static float passiveHeatLoss = 0.1f;
+    public static float passiveHeatLoss = 0.16f;
     public static float overheatThreshold = 1025f;
-    public float Heat = 16f;
+    public float heat = 16f;
     public static float maxHeat = 1300f;
 
 
@@ -48,23 +48,23 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{
             be.transferHeat();
             be.passiveCooling();
             be.sendToClient();
+            be.onMeltdown();
         }
 
         be.onOverheat();
-        be.onMeltdown();
     }
 
-    private void sendToClient() {
+    protected void sendToClient() {
         ModNetworkPackets.INSTANCE.send(PacketDistributor.TRACKING_CHUNK
                 .with(() -> this.level.getChunkAt(this.worldPosition)), 
-            new RbmkHeatS2CPacket(this.pos, this.Heat));
+            new RbmkHeatS2CPacket(this.pos, this.heat));
     }
 
     // HUGE Thanks to Drillgon200 for his rbmk code, without it im probably will be sitting here for the 1000 years
 
     protected RbmkBaseTE[] heatCache = new RbmkBaseTE[4];
 
-    private BlockPos pos = this.getBlockPos();
+    public BlockPos pos = this.getBlockPos();
 
     public static final Directions[] directions = new Directions[]
     {
@@ -74,13 +74,13 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{
         Directions.WEST, 
     };
 
-    private void transferHeat()
+    protected void transferHeat()
     {
         if (level == null)
         return;
         List<RbmkBaseTE> connected = new ArrayList<>();
         connected.add(this);
-        float heatTotal = Heat;
+        float heatTotal = heat;
 
         int i = 0;
         for(Directions dir : directions)
@@ -105,7 +105,7 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{
         {
             if (base != null){
                 connected.add(base);
-                heatTotal += base.Heat;
+                heatTotal += base.heat;
             }
         }
 
@@ -117,36 +117,36 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{
             float targetHeat = heatTotal / (float) memb;
             for (RbmkBaseTE rbmk : connected)
             {
-                float delta = targetHeat - rbmk.Heat;
-                rbmk.Heat += delta * stepSize;
+                float delta = targetHeat - rbmk.heat;
+                rbmk.heat += delta * stepSize;
             }
         }
     }
 
     protected void passiveCooling(){
-        Heat = Heat - passiveHeatLoss;
-        if (Heat < 16){
-            Heat = 16;
+       heat = heat - passiveHeatLoss;
+        if (heat < 16){
+            heat = 16;
         }
     }
 
     private int t;
 
     public void onOverheat() {
-        if (Heat < overheatThreshold) {return;}
+        if (heat < overheatThreshold) {return;}
         t++;
-        if (t > 3){
+        if (t > 5){
             if (level.isClientSide)  {
                 this.level.addParticle(ParticleTypes.LAVA, pos.getX(), pos.getY() + 0.5f, pos.getZ(), level.random.nextFloat() * .1f, 3.5f * (level.random.nextFloat() * .1f), level.random.nextFloat() * .1f);
             }
-            this.level.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.3f, 1.18f - (level.random.nextFloat() * .2f), true);
+            this.level.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.LAVA_POP, SoundSource.BLOCKS, 0.7f, 1.18f - (level.random.nextFloat() * .2f), true);
             t = 0;
         }
     }
 
     public void onMeltdown()
     {
-        if (Heat < maxHeat) {return;}
+        if (heat < maxHeat) {return;}
         if(!level.isClientSide()){
             //blow up
             if(level.random.nextInt(3) == 0){
@@ -159,27 +159,26 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{
     @Override
 	public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         boolean added = IHaveGoggleInformation.super.addToGoggleTooltip(tooltip, isPlayerSneaking);
-        if(Heat > overheatThreshold){
+        if(heat > overheatThreshold){
             tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(BuildConfig.MODID + ".tooltip.rbmkbase.overheat").withStyle(ChatFormatting.GRAY)));
-            tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + (Heat * 10f) / 10f + " ").withStyle(ChatFormatting.RED)));
+            tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + this.heat + " ").withStyle(ChatFormatting.RED)));
         }
         else{
             tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(BuildConfig.MODID + ".tooltip.rbmkbase.heat").withStyle(ChatFormatting.GRAY)));
-            tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + (Heat * 10f) / 10f + " ").withStyle(ChatFormatting.GOLD)));
+            tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + this.heat + " ").withStyle(ChatFormatting.GOLD)));
         }
-
 		return added;
 	}
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
-        tag.putFloat("heat", this.Heat);
+        tag.putFloat("heat", this.heat);
         super.saveAdditional(tag);
     }
 
     @Override
     public void load(CompoundTag tag) {
-        Heat = tag.getFloat("heat");
+        heat = tag.getFloat("heat");
         super.load(tag);
     }
 

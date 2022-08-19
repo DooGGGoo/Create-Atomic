@@ -1,6 +1,7 @@
 package mod.dooggoo.createatomic.network;
 
 import mod.dooggoo.createatomic.BuildConfig;
+import mod.dooggoo.createatomic.network.packet.RbmkFuelRodS2CPacket;
 import mod.dooggoo.createatomic.network.packet.RbmkHeatS2CPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,7 +18,8 @@ public class ModNetworkPackets {
         return packetId++;
     }
 
-    public static void register(){
+    public static void register()
+    {
         SimpleChannel net = NetworkRegistry.ChannelBuilder
             .named(new ResourceLocation(BuildConfig.MODID, "messages"))
             .networkProtocolVersion(() -> "1.0")
@@ -31,6 +33,12 @@ public class ModNetworkPackets {
             .decoder(RbmkHeatS2CPacket::new)
             .encoder(RbmkHeatS2CPacket::toBytes)
             .consumer(RbmkHeatS2CPacket::handle)
+            .add();
+
+        net.messageBuilder(RbmkFuelRodS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+            .decoder(RbmkFuelRodS2CPacket::new)
+            .encoder(RbmkFuelRodS2CPacket::toBytes)
+            .consumer(RbmkFuelRodS2CPacket::handle)
             .add();
     }
 

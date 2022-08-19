@@ -1,18 +1,19 @@
 package mod.dooggoo.createatomic.network;
 
-import mod.dooggoo.createatomic.blocks.rbmk.RbmkBaseTE;
+import mod.dooggoo.createatomic.blocks.rbmk.RbmkFuelRodTE;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 @SuppressWarnings("resource")
-public class UpdateHeat {
-    public static boolean updateHeat(BlockPos pos, float heat) {
+public class UpdateFuelRod {
+    public static boolean updateFuelRod(BlockPos pos, float heat, boolean hasFuel) {
        final BlockEntity be = Minecraft.getInstance().level.getBlockEntity(pos);
 
-        if (be instanceof final RbmkBaseTE rbmk) {
-                rbmk.heat = heat;
-                return true;
+        if (be instanceof RbmkFuelRodTE rbmk) {
+            rbmk.heat = heat;
+            rbmk.hasFuel = hasFuel;
+            return true;
         }
         return false;
     }

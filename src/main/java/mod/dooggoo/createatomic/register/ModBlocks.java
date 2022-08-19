@@ -8,6 +8,7 @@ import com.simibubi.create.repack.registrate.util.entry.BlockEntry;
 import mod.dooggoo.createatomic.CreateAtomic;
 import mod.dooggoo.createatomic.blocks.*;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkBase;
+import mod.dooggoo.createatomic.blocks.rbmk.RbmkFuelRod;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -72,7 +73,7 @@ public class ModBlocks {
                 .simpleItem()
                 .register();
 
-        public static final BlockEntry<Block> RBMK_FUEL_ROD = registrate.block("rbmk_fuel_rod", Block::new)
+        public static final BlockEntry<RbmkFuelRod> RBMK_FUEL_ROD = registrate.block("rbmk_fuel_rod", RbmkFuelRod::new)
                 .initialProperties(() -> ModBlocks.RBMK_BASE.get())
                 .tag(BlockTags.NEEDS_IRON_TOOL)
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE)
