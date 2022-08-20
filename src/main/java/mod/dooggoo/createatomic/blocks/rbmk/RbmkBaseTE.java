@@ -60,8 +60,6 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{
             new RbmkHeatS2CPacket(this.pos, this.heat));
     }
 
-    // HUGE Thanks to Drillgon200 for his rbmk code, without it im probably will be sitting here for the 1000 years
-
     protected RbmkBaseTE[] heatCache = new RbmkBaseTE[4];
 
     public BlockPos pos = this.getBlockPos();

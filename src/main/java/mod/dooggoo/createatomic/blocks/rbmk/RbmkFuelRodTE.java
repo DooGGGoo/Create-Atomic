@@ -7,7 +7,6 @@ import mod.dooggoo.createatomic.api.Directions;
 import mod.dooggoo.createatomic.items.RbmkFuelItem;
 import mod.dooggoo.createatomic.network.ModNetworkPackets;
 import mod.dooggoo.createatomic.network.packet.RbmkFuelRodS2CPacket;
-import mod.dooggoo.createatomic.register.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -58,6 +57,12 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
             be.sendToClient();
             be.onMeltdown();
         }
+        if (be.hasFuel){
+           be.getBlockState().setValue(RbmkFuelRod.HASFUEL, true);
+        }
+        else{
+            be.getBlockState().setValue(RbmkFuelRod.HASFUEL, false);
+        }
 
         be.onOverheat();
     }
@@ -70,7 +75,7 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
     }
 
     public boolean hasFuelRod(int slot){
-        if (inventory.getStackInSlot(slot).getItem() == ModItems.RBMK_FUEL.get()){
+        if (inventory.getStackInSlot(slot).getItem() instanceof RbmkFuelItem){
             return true;
         }
         return false;
@@ -87,7 +92,7 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
 
             fuel.updateHeat(level, inventory.getStackInSlot(0));
             heat += fuel.releaseHeat(level, inventory.getStackInSlot(0), heat);
-            be.sendToClient();
+            sendToClient();
 
             fluxFast = 0f;
             fluxSlow = 0f;
@@ -131,18 +136,38 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
     protected float fluxInteractions(int x, int y, int z, float flux)
     {
         BlockEntity be = level.getBlockEntity(new BlockPos(x, y, z));
-
-        if(be instanceof RbmkBaseTE) {
-            return 0;
-        }
-
+        
         if(be instanceof RbmkFuelRodTE) {
+            RbmkFuelRodTE fuelRod = (RbmkFuelRodTE) be;
             if (hasFuelRod(0)) {
-                return flux;
+                fuelRod.recieveFlux(fluxStream, flux);
+                return 0f;
             }
         }
 
-        // TODO: Add other interactions for future blocks
+        if(be instanceof RbmkModeratorTE) {
+            fluxStream = Type.SLOW;
+            return flux;
+        }
+        
+        if(be instanceof RbmkReflectorTE) {
+            this.recieveFlux(fluxStream, flux);
+            return 0f;
+        }
+
+        if(be instanceof RbmkControlRodTE) {
+            RbmkControlRodTE controlRod = (RbmkControlRodTE) be;
+            if(controlRod.extentionValue == 0) {return 0f;}
+            else if(controlRod.extentionValue == 1) {return flux * 0.25f;}
+            else if(controlRod.extentionValue == 2) {return flux * 0.5f;}
+            else if(controlRod.extentionValue == 3) {return flux * 0.75f;}
+            else if(controlRod.extentionValue == 4) {return flux;}
+        }
+        
+        if(be instanceof RbmkBaseTE) {
+            return flux;
+        }
+        
 
         return 0;
     }

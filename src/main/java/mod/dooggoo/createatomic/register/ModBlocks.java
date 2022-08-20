@@ -8,7 +8,11 @@ import com.simibubi.create.repack.registrate.util.entry.BlockEntry;
 import mod.dooggoo.createatomic.CreateAtomic;
 import mod.dooggoo.createatomic.blocks.*;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkBase;
+import mod.dooggoo.createatomic.blocks.rbmk.RbmkControlRod;
+import mod.dooggoo.createatomic.blocks.rbmk.RbmkControlRodExtender;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkFuelRod;
+import mod.dooggoo.createatomic.blocks.rbmk.RbmkModerator;
+import mod.dooggoo.createatomic.blocks.rbmk.RbmkReflector;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -66,7 +70,7 @@ public class ModBlocks {
                 .simpleItem()
                 .register();
 
-        public static final BlockEntry<Block> RBMK_CONTROL_ROD = registrate.block("rbmk_control_rod", Block::new)
+        public static final BlockEntry<RbmkControlRod> RBMK_CONTROL_ROD = registrate.block("rbmk_control_rod", RbmkControlRod::new)
                 .initialProperties(() -> ModBlocks.RBMK_BASE.get())
                 .tag(BlockTags.NEEDS_IRON_TOOL)
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -87,14 +91,21 @@ public class ModBlocks {
                 .simpleItem()
                 .register();
 
-        public static final BlockEntry<Block>RBMK_MODERATOR = registrate.block("rbmk_moderator", Block::new)
+        public static final BlockEntry<RbmkModerator>RBMK_MODERATOR = registrate.block("rbmk_moderator", RbmkModerator::new)
                 .initialProperties(() -> ModBlocks.RBMK_BASE.get())
                 .tag(BlockTags.NEEDS_IRON_TOOL)
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .simpleItem()
                 .register();
 
-        public static final BlockEntry<Block> RBMK_REFLECTOR = registrate.block("rbmk_reflector", Block::new)
+        public static final BlockEntry<RbmkReflector> RBMK_REFLECTOR = registrate.block("rbmk_reflector", RbmkReflector::new)
+                .initialProperties(() -> ModBlocks.RBMK_BASE.get())
+                .tag(BlockTags.NEEDS_IRON_TOOL)
+                .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .simpleItem()
+                .register();
+
+        public static final BlockEntry<RbmkControlRodExtender> RBMK_CONTROL_ROD_EXTENDER = registrate.block("rbmk_control_rod_extender", RbmkControlRodExtender::new)
                 .initialProperties(() -> ModBlocks.RBMK_BASE.get())
                 .tag(BlockTags.NEEDS_IRON_TOOL)
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE)

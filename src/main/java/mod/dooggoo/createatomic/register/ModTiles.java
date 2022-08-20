@@ -5,21 +5,42 @@ import com.simibubi.create.repack.registrate.util.entry.BlockEntityEntry;
 
 import mod.dooggoo.createatomic.CreateAtomic;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkBaseTE;
+import mod.dooggoo.createatomic.blocks.rbmk.RbmkConrolRodEntenderRenderer;
+import mod.dooggoo.createatomic.blocks.rbmk.RbmkConrolRodExtenderTE;
+import mod.dooggoo.createatomic.blocks.rbmk.RbmkControlRodTE;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkFuelRodTE;
+import mod.dooggoo.createatomic.blocks.rbmk.RbmkModeratorTE;
+import mod.dooggoo.createatomic.blocks.rbmk.RbmkReflectorTE;
 
 public class ModTiles {
 
     public static final CreateRegistrate registrate = CreateAtomic.registrate()
-            .creativeModeTab(() -> ModCreativeModeTab.MAIN_TAB);
+        .creativeModeTab(() -> ModCreativeModeTab.MAIN_TAB);
 
     public static final BlockEntityEntry<RbmkBaseTE> RBMK_BASE_TE = registrate.tileEntity("rbmk_base_te", RbmkBaseTE::new)
-            .validBlocks(ModBlocks.RBMK_BASE)
-            .register();
+        .validBlocks(ModBlocks.RBMK_BASE)
+        .register();
 
     public static final BlockEntityEntry<RbmkFuelRodTE> RBMK_FUEL_ROD_TE = registrate.tileEntity("rbmk_fuel_rod_te", RbmkFuelRodTE::new)
-            .validBlocks(ModBlocks.RBMK_FUEL_ROD)
-            .register();
+        .validBlocks(ModBlocks.RBMK_FUEL_ROD)
+        .register();
 
+    public static final BlockEntityEntry<RbmkReflectorTE> RBMK_REFLECTOR_TE = registrate.tileEntity("rbmk_reflector_te", RbmkReflectorTE::new)
+        .validBlocks(ModBlocks.RBMK_REFLECTOR)
+        .register();
+
+    public static final BlockEntityEntry<RbmkModeratorTE> RBMK_MODERATOR_TE = registrate.tileEntity("rbmk_moderator_te", RbmkModeratorTE::new)
+        .validBlocks(ModBlocks.RBMK_MODERATOR)
+        .register();
+
+    public static final BlockEntityEntry<RbmkControlRodTE> RBMK_CONTROL_ROD_TE = registrate.tileEntity("rbmk_control_rod_te", RbmkControlRodTE::new)
+        .validBlocks(ModBlocks.RBMK_CONTROL_ROD)
+        .register();
+
+    public static final BlockEntityEntry<RbmkConrolRodExtenderTE> RBMK_CONTROL_ROD_EXTENDER_TE = registrate.tileEntity("rbmk_control_rod_extender_te", RbmkConrolRodExtenderTE::new)
+        .validBlocks(ModBlocks.RBMK_CONTROL_ROD_EXTENDER)
+        .renderer(() -> RbmkConrolRodEntenderRenderer::new)
+        .register();
 
     public static void register() {}
 }

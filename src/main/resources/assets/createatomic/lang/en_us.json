@@ -9,6 +9,7 @@
     "block.createatomic.rbmk_steam_channel": "RBMK Steam Channel",
 	"block.createatomic.rbmk_moderator": "RBMK Neutron Moderator",
     "block.createatomic.rbmk_reflector": "RBMK Neutron Reflector",
+	"block.createatomic.rbmk_control_rod_extender": "RBMK Control Rod Extender",
 
 
     "item.createatomic.raw_uranium": "Raw Uranium",
@@ -18,6 +19,7 @@
     "item.createatomic.rbmk_fuel": "RBMK Fuel",
     "item.createatomic.geiger_counter": "Geiger Counter",
     "item.createatomic.protective_plating": "Protective Plating",
+	"item.createatomic.heat_debug": "Heat Debug",
 
 	"item.createatomic.plated_iron_helmet": "Plated Iron Helmet",
     "item.createatomic.plated_iron_chestplate": "Plated Iron Chestplate",

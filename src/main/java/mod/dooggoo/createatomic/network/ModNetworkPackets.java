@@ -1,6 +1,7 @@
 package mod.dooggoo.createatomic.network;
 
 import mod.dooggoo.createatomic.BuildConfig;
+import mod.dooggoo.createatomic.network.packet.RbmkControlRodS2CPacket;
 import mod.dooggoo.createatomic.network.packet.RbmkFuelRodS2CPacket;
 import mod.dooggoo.createatomic.network.packet.RbmkHeatS2CPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -39,6 +40,12 @@ public class ModNetworkPackets {
             .decoder(RbmkFuelRodS2CPacket::new)
             .encoder(RbmkFuelRodS2CPacket::toBytes)
             .consumer(RbmkFuelRodS2CPacket::handle)
+            .add();
+
+        net.messageBuilder(RbmkControlRodS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+            .decoder(RbmkControlRodS2CPacket::new)
+            .encoder(RbmkControlRodS2CPacket::toBytes)
+            .consumer(RbmkControlRodS2CPacket::handle)
             .add();
     }
 

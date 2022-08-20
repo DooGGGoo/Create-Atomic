@@ -1,5 +1,9 @@
 {
     "variants": {
-        "": {"model": "createatomic:block/rbmk_control_rod"}
+        "extention=0": {"model": "createatomic:block/rbmk_control_rod_0"},
+		"extention=1": {"model": "createatomic:block/rbmk_control_rod_25"},
+        "extention=2": {"model": "createatomic:block/rbmk_control_rod_50"},
+        "extention=3": {"model": "createatomic:block/rbmk_control_rod_75"},
+        "extention=4": {"model": "createatomic:block/rbmk_control_rod_100"}
     }
 }
