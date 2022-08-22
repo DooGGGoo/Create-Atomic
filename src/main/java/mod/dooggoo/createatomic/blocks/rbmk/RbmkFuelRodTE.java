@@ -10,12 +10,18 @@ import mod.dooggoo.createatomic.network.packet.RbmkFuelRodS2CPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -44,6 +50,7 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
         super(type, blockPos, blockState);
     }
 
+  
     public static void tick(Level Level, BlockPos Pos, BlockState State, RbmkFuelRodTE be)
     {
         if (!be.hasLevel() || be.pos == null){
@@ -56,12 +63,6 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
             be.updateFlux();
             be.sendToClient();
             be.onMeltdown();
-        }
-        if (be.hasFuel){
-           be.getBlockState().setValue(RbmkFuelRod.HASFUEL, true);
-        }
-        else{
-            be.getBlockState().setValue(RbmkFuelRod.HASFUEL, false);
         }
 
         be.onOverheat();
@@ -106,6 +107,38 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
 
             hasFuel = false;
         }
+    }
+
+    private boolean isValidFuel(ItemStack item) {
+        if (item.getItem() instanceof RbmkFuelItem) return true;
+        else return false;
+    }
+
+    public void setState(boolean value, BooleanProperty property) {
+        BlockState state = level.getBlockState(this.pos);
+        updateBlockState(state.setValue(property, value));
+    }
+
+    public boolean interact(Player player, InteractionHand hand, ItemStack itemInHand) {
+        if (isValidFuel(itemInHand))
+        {
+            ItemStack stored = !inventory.getStackInSlot(0).isEmpty() ? inventory.getStackInSlot(0).copy() : ItemStack.EMPTY;
+            inventory.setStackInSlot(0, itemInHand.copy());
+            player.setItemInHand(hand, stored);
+            this.setChanged();
+            this.setState(!inventory.getStackInSlot(0).isEmpty() ? true : false, RbmkFuelRod.HASFUEL);
+            return true;
+        }
+        else if (!inventory.getStackInSlot(0).isEmpty())
+        {
+            if (!level.isClientSide)
+                player.spawnAtLocation(inventory.getStackInSlot(0).copy());
+            inventory.setStackInSlot(0, ItemStack.EMPTY);
+            this.setChanged();
+            this.setState(false, RbmkFuelRod.HASFUEL);
+            return true;
+        }
+        return false;
     }
 
     @SuppressWarnings("incomplete-switch")
@@ -157,11 +190,11 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
 
         if(be instanceof RbmkControlRodTE) {
             RbmkControlRodTE controlRod = (RbmkControlRodTE) be;
-            if(controlRod.extentionValue == 0) {return 0f;}
-            else if(controlRod.extentionValue == 1) {return flux * 0.25f;}
-            else if(controlRod.extentionValue == 2) {return flux * 0.5f;}
-            else if(controlRod.extentionValue == 3) {return flux * 0.75f;}
-            else if(controlRod.extentionValue == 4) {return flux;}
+            if(controlRod.extention.getPercentage() == 0) {return 0f;}
+            else if(controlRod.extention.getPercentage() == 1) {return flux * 0.25f;}
+            else if(controlRod.extention.getPercentage() == 2) {return flux * 0.5f;}
+            else if(controlRod.extention.getPercentage() == 3) {return flux * 0.75f;}
+            else if(controlRod.extention.getPercentage() == 4) {return flux;}
         }
         
         if(be instanceof RbmkBaseTE) {
@@ -171,14 +204,6 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
 
         return 0;
     }
-
-    // private Directions[] directions = new Directions[] {
-    //     Directions.NORTH, 
-    //     Directions.SOUTH, 
-    //     Directions.EAST, 
-    //     Directions.WEST
-    // };
-
 
     public enum Type {
 		FAST,
@@ -226,12 +251,49 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
 
     @Override
     public void load(CompoundTag tag) {
-        inventory.deserializeNBT(tag.getCompound("inventory"));
+        inventory.deserializeNBT(tag);
         fluxFast = tag.getFloat("fluxFast");
         fluxSlow = tag.getFloat("fluxSlow");
         heat = tag.getFloat("heat");
         hasFuel = tag.getBoolean("hasFuel");
         super.load(tag);
+    }
+
+    @Override
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this, be -> {
+            CompoundTag tag = new CompoundTag();
+            tag.put("inventory", inventory.serializeNBT());
+            tag.putFloat("fluxFast", this.fluxFast);
+            tag.putFloat("fluxSlow", this.fluxSlow);
+            tag.putFloat("heat", this.heat);
+            tag.putBoolean("hasFuel", this.hasFuel);
+            this.saveAdditional(tag);
+            return tag;
+        });
+    }
+
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        CompoundTag Tag = pkt.getTag() != null ? pkt.getTag() : new CompoundTag();
+        this.load(Tag);
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag) {
+        this.load(tag);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag nbt = super.getUpdateTag();
+        nbt.put("inventory", inventory.serializeNBT());
+        nbt.putFloat("fluxFast", this.fluxFast);
+        nbt.putFloat("fluxSlow", this.fluxSlow);
+        nbt.putFloat("heat", this.heat);
+        nbt.putBoolean("hasFuel", this.hasFuel);
+        saveAdditional(nbt);
+        return nbt;
     }
 
 //#endregion

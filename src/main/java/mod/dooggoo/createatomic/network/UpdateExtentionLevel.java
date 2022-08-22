@@ -11,7 +11,7 @@ public class UpdateExtentionLevel {
         final BlockEntity be = Minecraft.getInstance().level.getBlockEntity(pos);
         
         if (be instanceof RbmkControlRodTE rbmk) {
-            rbmk.extentionValue = extention;
+            rbmk.extention.setPercentage(extention);
             return true;
         }
         return false;

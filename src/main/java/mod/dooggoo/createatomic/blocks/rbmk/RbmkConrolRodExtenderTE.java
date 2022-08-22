@@ -22,24 +22,22 @@ public class RbmkConrolRodExtenderTE extends KineticTileEntity {
 
     @Override
     public void tick() {
+        if (level.isClientSide()) return;
         controlRodTE = level.getBlockEntity(this.worldPosition.atY(this.worldPosition.getY() + 1));
-        if(!level.isClientSide && speed != 0 && controlRodTE instanceof RbmkControlRodTE) {
+        if(speed != 0 && controlRodTE instanceof RbmkControlRodTE) {
             count += speed / 512;
             if(count >= rotationsForSwitch) {
                 count = 0;
                 ((RbmkControlRodTE) controlRodTE).extend();
-                level.playSound(null, worldPosition, SoundEvents.DISPENSER_FAIL, SoundSource.BLOCKS, 0.5f, 1.2f);
-                //CreateAtomic.LOGGER.info("Extending rod");
+                level.playSound(null, worldPosition, SoundEvents.DISPENSER_FAIL, SoundSource.BLOCKS, 0.5f, 1.5f);
             }
             else if(count <= -rotationsForSwitch) {
                 count = 0;
                 ((RbmkControlRodTE) controlRodTE).retract();
-                level.playSound(null, worldPosition, SoundEvents.DISPENSER_LAUNCH, SoundSource.BLOCKS, 0.5f, 0.8f);
-                //CreateAtomic.LOGGER.info("Retracting rod");
+                level.playSound(null, worldPosition, SoundEvents.DISPENSER_FAIL, SoundSource.BLOCKS, 0.5f, 0.5f);
             }
         }
     }
-
     
 	@Override
 	public void write(CompoundTag compound, boolean clientPacket) {

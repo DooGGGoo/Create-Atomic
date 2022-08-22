@@ -39,6 +39,15 @@ public class ModItems {
         .onRegister(c -> c.Radiation = 2f)
         .register();
 
+    public static final ItemEntry<RbmkFuelItem> NEUTRON_SOURCE = registrate.item("rbmk_neutron_source", RbmkFuelItem::new)
+        .properties(p -> p
+            .rarity(Rarity.UNCOMMON)
+            .stacksTo(1))
+        .onRegister(c -> c.Radiation = 4f)
+        .onRegister(c -> c.fluxFromSelfIgnition = 4f)
+        .onRegister(c -> c.flux = 8f)
+        .register();
+
     public static final ItemEntry<RadioactiveItem> ENRICHED_URANIUM = registrate.item("enriched_uranium", RadioactiveItem::new)
         .onRegister(c -> c.Radiation = 1.2f)
         .register();

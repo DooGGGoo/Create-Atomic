@@ -21,19 +21,14 @@ public class RbmkControlRod extends BaseEntityBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(EXTENTION, 0));
     }
 
+    public void updateState(int val) {
+        this.stateDefinition.any().setValue(EXTENTION, val);
+    }
+
     @Override
     public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return ModTiles.RBMK_CONTROL_ROD_TE.create(pPos, pState);
     }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public boolean triggerEvent(BlockState pState, Level pLevel, BlockPos pPos, int pId, int pParam) {
-        super.triggerEvent(pState, pLevel, pPos, pId, pParam);
-        BlockEntity blockentity = pLevel.getBlockEntity(pPos);
-        return blockentity == null ? false : blockentity.triggerEvent(pId, pParam);
-     }
-  
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {

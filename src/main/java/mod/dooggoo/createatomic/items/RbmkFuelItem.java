@@ -15,17 +15,17 @@ import net.minecraft.world.level.Level;
 
 public class RbmkFuelItem extends RadioactiveItem {
     public float flux = 15f;
-    public float fluxFromSelfIgnition = 2f;
+    public float fluxFromSelfIgnition = 0f;
     public float fuelHeat = 16f;
     public float blockHeat = 22f;
     public float maxHeat = 1265f;
     public float heatPerFlux = 1f;
     public float fuel2blockHeat = 0.02f;
-    public float xenonGenRate = 0.01f;
-    public float xenonBurnRate = 45f;
-    public float yield = 1040000f;
+    public float xenonGenRate = 0.2f;
+    public float xenonBurnRate = 50f;
+    public float yield = 1045000f;
 
-    public Type inType = Type.FAST;
+    public Type inType = Type.SLOW;
     public Type outType = Type.FAST;
 
     public RbmkFuelItem(Properties properties) {

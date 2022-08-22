@@ -4,15 +4,17 @@ import mod.dooggoo.createatomic.network.ModNetworkPackets;
 import mod.dooggoo.createatomic.network.packet.RbmkControlRodS2CPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraftforge.network.PacketDistributor;
 
 public class RbmkControlRodTE extends RbmkBaseTE{
     public ExtentionPercentage extention = ExtentionPercentage.FULLIN;
-    public int extentionValue = 0;
-
+    private BlockState state;
 
     public RbmkControlRodTE(BlockEntityType<?> type, BlockPos blockPos, BlockState blockState) {
         super(type, blockPos, blockState);
@@ -25,7 +27,7 @@ public class RbmkControlRodTE extends RbmkBaseTE{
         QUARTERIN(3),
         FULLOUT(4);
         
-        private final int percentage;
+        private int percentage;
         
         ExtentionPercentage(int percentage) {
             this.percentage = percentage;
@@ -34,15 +36,19 @@ public class RbmkControlRodTE extends RbmkBaseTE{
         public int getPercentage() {
             return this.percentage;
         }
+
+        public void setPercentage(int percentage) {
+            this.percentage = percentage;
+        }
     }
 
     public static void tick(Level Level, BlockPos Pos, BlockState State, RbmkControlRodTE be) {
         if (!Level.isClientSide()){
-            be.getBlockState().setValue(RbmkControlRod.EXTENTION, be.extentionValue);
-            
+            be.state = State;
+
             ModNetworkPackets.INSTANCE.send(PacketDistributor.TRACKING_CHUNK
                     .with(() -> be.level.getChunkAt(be.worldPosition)), 
-                new RbmkControlRodS2CPacket(be.worldPosition, be.extentionValue));
+                new RbmkControlRodS2CPacket(be.worldPosition, be.extention.getPercentage()));
             
             be.sendToClient();
             be.transferHeat();
@@ -50,59 +56,76 @@ public class RbmkControlRodTE extends RbmkBaseTE{
             be.sendToClient();
             be.onMeltdown();
         }
-        be.extentionValue = be.extention.getPercentage();
         be.onOverheat();
     }
 
     public void extend() {
-        switch (extention) {
-            case FULLIN:
-                extention = ExtentionPercentage.QUARTEROUT;
-                break;
-            case QUARTEROUT:
-                extention = ExtentionPercentage.HALF;
-                break;
-            case HALF:
-                extention = ExtentionPercentage.QUARTERIN;
-                break;
-            case QUARTERIN:
-                extention = ExtentionPercentage.FULLOUT;
-                break;
-            case FULLOUT:
-                extention = ExtentionPercentage.FULLOUT;
-                break;
-        }
+        if(extention.getPercentage() == 0) extention.setPercentage(1);
+        else if(extention.getPercentage() == 1) extention.setPercentage(2);
+        else if(extention.getPercentage() == 2) extention.setPercentage(3);
+        else if(extention.getPercentage() == 3) extention.setPercentage(4);
+        else if(extention.getPercentage() == 4) extention.setPercentage(4);
+
+        this.updateBlockState(state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
+        this.setChanged();
+        this.level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
     }
 
     public void retract() {
-        switch (extention) {
-            case FULLOUT:
-                extention = ExtentionPercentage.QUARTERIN;
-                break;
-            case QUARTERIN:
-                extention = ExtentionPercentage.HALF;
-                break;
-            case HALF:
-                extention = ExtentionPercentage.QUARTEROUT;
-                break;
-            case QUARTEROUT:
-                extention = ExtentionPercentage.FULLIN;
-                break;
-            case FULLIN:
-                extention = ExtentionPercentage.FULLIN;
-        }
+        if(extention.getPercentage() == 0) extention.setPercentage(0);
+        else if(extention.getPercentage() == 1) extention.setPercentage(0);
+        else if(extention.getPercentage() == 2) extention.setPercentage(1);
+        else if(extention.getPercentage() == 3) extention.setPercentage(2);
+        else if(extention.getPercentage() == 4) extention.setPercentage(3);
+
+        this.updateBlockState(state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
+        this.setChanged();
+        this.level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
     }
     
     @Override
     protected void saveAdditional(CompoundTag tag) {
-        tag.putInt("extention", extentionValue);
+        tag.putInt("extention", extention.getPercentage());
+        tag.putFloat("heat", this.heat);
         super.saveAdditional(tag);
     }
 
     @Override
     public void load(CompoundTag tag) {
-        extentionValue = tag.getInt("extention");
+        extention.percentage = tag.getInt("extention");
+        heat = tag.getFloat("heat");
         super.load(tag);
+    }
+
+    @Override
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this, be -> {
+            CompoundTag tag = new CompoundTag();
+            tag.putInt("extention", extention.getPercentage());
+            tag.putFloat("heat", heat);
+            this.saveAdditional(tag);
+            return tag;
+        });
+    }
+
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        CompoundTag Tag = pkt.getTag() != null ? pkt.getTag() : new CompoundTag();
+        this.load(Tag);
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag) {
+        this.load(tag);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag nbt = super.getUpdateTag();
+        nbt.putInt("extention", extention.getPercentage());
+        nbt.putFloat("heat", heat);
+        saveAdditional(nbt);
+        return nbt;
     }
 
 }

@@ -1,10 +1,7 @@
 package mod.dooggoo.createatomic.blocks.rbmk;
 
-import mod.dooggoo.createatomic.items.RbmkFuelItem;
 import mod.dooggoo.createatomic.register.ModTiles;
 import net.minecraft.core.BlockPos;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -37,25 +34,14 @@ public class RbmkFuelRod extends BaseEntityBlock {
     //TODO: fix interaction with fuel on fuel rod blockS
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
-        if (pLevel.isClientSide) return InteractionResult.PASS;
+        if (pPlayer.isShiftKeyDown()) return InteractionResult.PASS;
+
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         RbmkFuelRodTE te = (RbmkFuelRodTE) pLevel.getBlockEntity(pPos);
-
-        if (te.inventory.getStackInSlot(0) == ItemStack.EMPTY && itemstack.getItem() instanceof RbmkFuelItem && !pPlayer.isShiftKeyDown()) 
-        {
-            pLevel.playSound(null, pPos, SoundEvents.IRON_TRAPDOOR_CLOSE, SoundSource.BLOCKS, 1.0F, 1.0F);
-            te.inventory.insertItem(0, itemstack, false);
-            pPlayer.setItemInHand(pHand, ItemStack.EMPTY);
+        
+        if(te.interact(pPlayer, pHand, itemstack))
             return InteractionResult.SUCCESS;
-        }
-        else if (te.inventory.getStackInSlot(0) != ItemStack.EMPTY && !pPlayer.isShiftKeyDown()) {
-            te.drops();
-            pLevel.playSound(null, pPos, SoundEvents.IRON_TRAPDOOR_OPEN, SoundSource.BLOCKS, 1.0F, 1.0F);
-            return InteractionResult.SUCCESS;
-        }    
-        else {
-            return InteractionResult.PASS;
-        }
+        else return InteractionResult.PASS;
     }
         
     @Override

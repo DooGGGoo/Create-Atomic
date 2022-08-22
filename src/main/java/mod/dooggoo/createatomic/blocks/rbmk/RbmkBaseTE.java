@@ -3,6 +3,8 @@ package mod.dooggoo.createatomic.blocks.rbmk;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
 
 import mod.dooggoo.createatomic.BuildConfig;
@@ -13,9 +15,11 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
@@ -180,8 +184,42 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{
         super.load(tag);
     }
 
+    public void updateBlockState(@Nullable BlockState newState) {
+        if (this.level != null) {
+            BlockState state = level.getBlockState(pos);
+            if (newState == null)
+                newState = state;
+            level.sendBlockUpdated(pos, state, newState, 3);
+            level.updateNeighborsAt(pos, newState.getBlock());
+        }
+    }
+
     @Override
-    public void setRemoved(){
-        super.setRemoved();
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this, be -> {
+            CompoundTag tag = new CompoundTag();
+            tag.putFloat("heat", heat);
+            saveAdditional(tag);
+            return tag;
+        });
+    }
+
+    @Override
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        CompoundTag Tag = pkt.getTag() != null ? pkt.getTag() : new CompoundTag();
+        this.load(Tag);
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag) {
+        this.load(tag);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag nbt = super.getUpdateTag();
+        nbt.putFloat("heat", heat);
+        saveAdditional(nbt);
+        return nbt;
     }
 }
