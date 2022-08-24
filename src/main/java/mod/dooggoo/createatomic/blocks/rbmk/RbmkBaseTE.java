@@ -151,10 +151,10 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{
         if (heat < maxHeat) {return;}
         if(!level.isClientSide()){
             //blow up
-            if(level.random.nextInt(3) == 0){
+            if(level.random.nextInt(2) == 0){
                 level.setBlockAndUpdate(pos, Blocks.LAVA.defaultBlockState());
             }
-            level.explode(null, pos.getX(), pos.getY(), pos.getZ(), 3, BlockInteraction.DESTROY);
+            level.explode(null, pos.getX(), pos.getY(), pos.getZ(), 5, BlockInteraction.DESTROY);
         }
     }
 

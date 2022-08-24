@@ -22,7 +22,7 @@ public class RbmkConrolRodExtenderTE extends KineticTileEntity {
 
     @Override
     public void tick() {
-        if (level.isClientSide()) return;
+        //if (level.isClientSide()) return;
         controlRodTE = level.getBlockEntity(this.worldPosition.atY(this.worldPosition.getY() + 1));
         if(speed != 0 && controlRodTE instanceof RbmkControlRodTE) {
             count += speed / 512;

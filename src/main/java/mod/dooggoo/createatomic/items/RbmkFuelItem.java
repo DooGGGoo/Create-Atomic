@@ -14,16 +14,16 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
 public class RbmkFuelItem extends RadioactiveItem {
-    public float flux = 15f;
+    public float flux = 16f;
     public float fluxFromSelfIgnition = 0f;
     public float fuelHeat = 16f;
-    public float blockHeat = 22f;
-    public float maxHeat = 1265f;
+    public float blockHeat = 16f;
+    public float maxHeat = 2355f;
     public float heatPerFlux = 1f;
     public float fuel2blockHeat = 0.02f;
-    public float xenonGenRate = 0.2f;
+    public float xenonGenRate = 0.05f;
     public float xenonBurnRate = 50f;
-    public float yield = 1045000f;
+    public float yield = 1000000f;
 
     public Type inType = Type.SLOW;
     public Type outType = Type.FAST;
@@ -103,9 +103,10 @@ public class RbmkFuelItem extends RadioactiveItem {
         return a;
     }
 
+
 //#region NBT
 
-    public RbmkFuelItem setTypes (Type in, Type out)
+    public RbmkFuelItem setTypes(Type in, Type out)
     {
         inType = in;
         outType = out;
@@ -170,7 +171,7 @@ public class RbmkFuelItem extends RadioactiveItem {
         }
         list.add(new TextComponent("Flux Types (in/out): " + inType.name() + "/" + outType.name()).withStyle(ChatFormatting.GRAY));
         list.add(new TextComponent("Heat: " + getFuelHeat(itemStack) + "/" + maxHeat).withStyle(ChatFormatting.DARK_RED));
-        list.add(new TextComponent("Yield: " + getYield(itemStack)).withStyle(ChatFormatting.GREEN));
+        list.add(new TextComponent("Fuel Depletion: " + (1 - getEnrichment(itemStack)) * 100f + "%").withStyle(ChatFormatting.GREEN));
         list.add(new TextComponent("Xenon: " + getXenonPoison(itemStack) + "%").withStyle(ChatFormatting.DARK_PURPLE));
         super.appendHoverText(itemStack, level, list, IsAdvanced);
     }
@@ -191,8 +192,8 @@ public class RbmkFuelItem extends RadioactiveItem {
     private static void setDefaultTags(ItemStack itemStack) {
         itemStack.setTag(new CompoundTag());
         setYield(itemStack, ((RbmkFuelItem)itemStack.getItem()).yield);
-		setFuelHeat(itemStack, 20f);
-        setBlockHeat(itemStack, 20f);
+		setFuelHeat(itemStack, 16f);
+        setBlockHeat(itemStack, 16f);
         setXenonPoison(itemStack, 0f);
     }
 

@@ -1,7 +1,5 @@
 package mod.dooggoo.createatomic.blocks.rbmk;
 
-import mod.dooggoo.createatomic.network.ModNetworkPackets;
-import mod.dooggoo.createatomic.network.packet.RbmkControlRodS2CPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -10,7 +8,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.network.PacketDistributor;
 
 public class RbmkControlRodTE extends RbmkBaseTE{
     public ExtentionPercentage extention = ExtentionPercentage.FULLIN;
@@ -46,9 +43,9 @@ public class RbmkControlRodTE extends RbmkBaseTE{
         if (!Level.isClientSide()){
             be.state = State;
 
-            ModNetworkPackets.INSTANCE.send(PacketDistributor.TRACKING_CHUNK
-                    .with(() -> be.level.getChunkAt(be.worldPosition)), 
-                new RbmkControlRodS2CPacket(be.worldPosition, be.extention.getPercentage()));
+            // ModNetworkPackets.INSTANCE.send(PacketDistributor.TRACKING_CHUNK
+            //         .with(() -> be.level.getChunkAt(be.worldPosition)), 
+            //     new RbmkControlRodS2CPacket(be.worldPosition, be.extention.getPercentage()));
             
             be.sendToClient();
             be.transferHeat();
@@ -66,7 +63,8 @@ public class RbmkControlRodTE extends RbmkBaseTE{
         else if(extention.getPercentage() == 3) extention.setPercentage(4);
         else if(extention.getPercentage() == 4) extention.setPercentage(4);
 
-        this.updateBlockState(state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
+        //this.updateBlockState(state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
+        this.level.setBlockAndUpdate(pos, state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
         this.setChanged();
         this.level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
     }
@@ -78,7 +76,8 @@ public class RbmkControlRodTE extends RbmkBaseTE{
         else if(extention.getPercentage() == 3) extention.setPercentage(2);
         else if(extention.getPercentage() == 4) extention.setPercentage(3);
 
-        this.updateBlockState(state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
+        //this.updateBlockState(state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
+        this.level.setBlockAndUpdate(pos, state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
         this.setChanged();
         this.level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
     }
@@ -86,14 +85,12 @@ public class RbmkControlRodTE extends RbmkBaseTE{
     @Override
     protected void saveAdditional(CompoundTag tag) {
         tag.putInt("extention", extention.getPercentage());
-        tag.putFloat("heat", this.heat);
         super.saveAdditional(tag);
     }
 
     @Override
     public void load(CompoundTag tag) {
         extention.percentage = tag.getInt("extention");
-        heat = tag.getFloat("heat");
         super.load(tag);
     }
 
@@ -102,7 +99,6 @@ public class RbmkControlRodTE extends RbmkBaseTE{
         return ClientboundBlockEntityDataPacket.create(this, be -> {
             CompoundTag tag = new CompoundTag();
             tag.putInt("extention", extention.getPercentage());
-            tag.putFloat("heat", heat);
             this.saveAdditional(tag);
             return tag;
         });
@@ -123,7 +119,6 @@ public class RbmkControlRodTE extends RbmkBaseTE{
     public CompoundTag getUpdateTag() {
         CompoundTag nbt = super.getUpdateTag();
         nbt.putInt("extention", extention.getPercentage());
-        nbt.putFloat("heat", heat);
         saveAdditional(nbt);
         return nbt;
     }

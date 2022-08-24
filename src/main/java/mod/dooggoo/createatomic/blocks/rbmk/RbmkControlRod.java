@@ -35,13 +35,6 @@ public class RbmkControlRod extends BaseEntityBlock {
         return createTickerHelper(pBlockEntityType, ModTiles.RBMK_CONTROL_ROD_TE.get(), RbmkControlRodTE::tick);
     }
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-        pLevel.removeBlockEntity(pPos);
-        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
-    }
-
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(EXTENTION);
@@ -50,5 +43,17 @@ public class RbmkControlRod extends BaseEntityBlock {
     @Override
 	public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
+    }
+
+    // It took me fucking 2 days to figure out that i need to put this shit not only in rbmkbase block
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (newState.getBlock() == state.getBlock()) {
+            return;
+        }
+        BlockEntity be = level.getBlockEntity(pos);
+        be.setRemoved();
+        super.onRemove(state, level, pos, newState, isMoving);
     }
 }

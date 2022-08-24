@@ -31,7 +31,6 @@ public class RbmkFuelRod extends BaseEntityBlock {
         return ModTiles.RBMK_FUEL_ROD_TE.create(pPos, pState);
     }
 
-    //TODO: fix interaction with fuel on fuel rod blockS
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (pPlayer.isShiftKeyDown()) return InteractionResult.PASS;
@@ -49,15 +48,19 @@ public class RbmkFuelRod extends BaseEntityBlock {
         return createTickerHelper(pBlockEntityType, ModTiles.RBMK_FUEL_ROD_TE.get(), RbmkFuelRodTE::tick);
     }
 
+    // It took me fucking 2 days to figure out that i need to put this shit not only in rbmkbase block
     @SuppressWarnings("deprecation")
     @Override
-    public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-        BlockEntity be = pLevel.getBlockEntity(pPos);
-        if (be instanceof RbmkFuelRodTE) {
-            ((RbmkFuelRodTE) be).drops();
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (newState.getBlock() == state.getBlock()) {
+            return;
         }
-        pLevel.removeBlockEntity(pPos);
-        super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
+        RbmkFuelRodTE be = (RbmkFuelRodTE) level.getBlockEntity(pos);
+        if (be != null) {
+            be.setRemoved();
+            be.drops();
+        }
+        super.onRemove(state, level, pos, newState, isMoving);
     }
 
     @Override

@@ -28,9 +28,13 @@ public class HeatDebug extends Item{
         if (!level.isClientSide && player != null) {
            BlockPos blockpos = pContext.getClickedPos();
            BlockState blockstate = level.getBlockState(blockpos);
-           if (blockstate.is(ModBlocks.RBMK_BASE.get())) {
+           if (blockstate.is(ModBlocks.RBMK_BASE.get()) && !player.isShiftKeyDown()) {
                RbmkBaseTE be = (RbmkBaseTE) level.getBlockEntity(blockpos);
                 be.heat += 200f;
+           }
+           else if (blockstate.is(ModBlocks.RBMK_BASE.get()) && player.isShiftKeyDown()) {
+               RbmkBaseTE be = (RbmkBaseTE) level.getBlockEntity(blockpos);
+               be.heat -= 200f;
            }
         }
         return InteractionResult.sidedSuccess(level.isClientSide);

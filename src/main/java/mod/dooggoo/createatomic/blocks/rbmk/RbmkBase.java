@@ -29,7 +29,14 @@ public class RbmkBase extends BaseEntityBlock {
     @SuppressWarnings("deprecation")
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
-        pLevel.removeBlockEntity(pPos);
+        if (pState.getBlock() == pNewState.getBlock()) {
+            return;
+        }
+        BlockEntity be = pLevel.getBlockEntity(pPos);
+        if (be instanceof RbmkFuelRodTE) {
+            ((RbmkFuelRodTE) be).drops();
+        }
+        be.setRemoved();
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
 

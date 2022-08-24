@@ -12,6 +12,8 @@ import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleContainer;
@@ -64,6 +66,11 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
             be.sendToClient();
             be.onMeltdown();
         }
+
+        if (be.hasFuel) {
+            be.getBlockState().setValue(RbmkFuelRod.HASFUEL, true);
+        }
+        else be.getBlockState().setValue(RbmkFuelRod.HASFUEL, false);
 
         be.onOverheat();
     }
@@ -125,8 +132,10 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
             ItemStack stored = !inventory.getStackInSlot(0).isEmpty() ? inventory.getStackInSlot(0).copy() : ItemStack.EMPTY;
             inventory.setStackInSlot(0, itemInHand.copy());
             player.setItemInHand(hand, stored);
+            //this.setState(!inventory.getStackInSlot(0).isEmpty() ? true : false, RbmkFuelRod.HASFUEL);
+            this.level.setBlockAndUpdate(pos, getBlockState().setValue(RbmkFuelRod.HASFUEL, !inventory.getStackInSlot(0).isEmpty() ? true : false));
+            this.level.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6f, 0.6f, true);
             this.setChanged();
-            this.setState(!inventory.getStackInSlot(0).isEmpty() ? true : false, RbmkFuelRod.HASFUEL);
             return true;
         }
         else if (!inventory.getStackInSlot(0).isEmpty())
@@ -134,8 +143,9 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
             if (!level.isClientSide)
                 player.spawnAtLocation(inventory.getStackInSlot(0).copy());
             inventory.setStackInSlot(0, ItemStack.EMPTY);
+            this.level.setBlockAndUpdate(pos, getBlockState().setValue(RbmkFuelRod.HASFUEL, !inventory.getStackInSlot(0).isEmpty() ? true : false));
+            this.level.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 0.6f, 0.6f, true);
             this.setChanged();
-            this.setState(false, RbmkFuelRod.HASFUEL);
             return true;
         }
         return false;
@@ -150,7 +160,7 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
     }
 
     protected void emmitFlux(Type type, float Flux) {
-        int range = 4; // TODO change to configurable
+        int range = 4;
 
         for (Directions dir : directions)
         {
@@ -240,23 +250,23 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
     }
 
     @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        lazyItemHandler.invalidate();
+    }
+
+    @Override
     protected void saveAdditional(CompoundTag tag) {
         tag.put("inventory", inventory.serializeNBT());
-        tag.putFloat("fluxFast", this.fluxFast);
-        tag.putFloat("fluxSlow", this.fluxSlow);
-        tag.putFloat("heat", this.heat);
         tag.putBoolean("hasFuel", this.hasFuel);
         super.saveAdditional(tag);
     }
 
     @Override
     public void load(CompoundTag tag) {
-        inventory.deserializeNBT(tag);
-        fluxFast = tag.getFloat("fluxFast");
-        fluxSlow = tag.getFloat("fluxSlow");
-        heat = tag.getFloat("heat");
-        hasFuel = tag.getBoolean("hasFuel");
         super.load(tag);
+        inventory.deserializeNBT(tag.getCompound("inventory"));
+        hasFuel = tag.getBoolean("hasFuel");
     }
 
     @Override
@@ -264,9 +274,6 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
         return ClientboundBlockEntityDataPacket.create(this, be -> {
             CompoundTag tag = new CompoundTag();
             tag.put("inventory", inventory.serializeNBT());
-            tag.putFloat("fluxFast", this.fluxFast);
-            tag.putFloat("fluxSlow", this.fluxSlow);
-            tag.putFloat("heat", this.heat);
             tag.putBoolean("hasFuel", this.hasFuel);
             this.saveAdditional(tag);
             return tag;
@@ -290,7 +297,6 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
         nbt.put("inventory", inventory.serializeNBT());
         nbt.putFloat("fluxFast", this.fluxFast);
         nbt.putFloat("fluxSlow", this.fluxSlow);
-        nbt.putFloat("heat", this.heat);
         nbt.putBoolean("hasFuel", this.hasFuel);
         saveAdditional(nbt);
         return nbt;
