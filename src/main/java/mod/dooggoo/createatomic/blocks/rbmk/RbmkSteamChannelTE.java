@@ -109,27 +109,27 @@ public class RbmkSteamChannelTE extends RbmkBaseTE {
         float heatProvided = this.heat - heatCap;
         
         if(heatProvided > 0) {
-            int waterUsed = (int)Math.floor(heatProvided / .2f);
+            int waterUsed = (int)Math.floor(heatProvided / .1f);
             waterUsed = Math.min(waterUsed, water.getFluidAmount());
             water.drain(waterUsed, FluidAction.EXECUTE);
             int steamProduced = (int)Math.floor((waterUsed * 100) / steamMultiplier(steamType));
             steam.fill(new FluidStack(steamType, steamProduced), FluidAction.EXECUTE); 
             
-            this.heat -= waterUsed * .2f;
+            this.heat -= waterUsed * .1f;
         }
     }
 
     //Currently this function is not necessary but if in future i will adding other steam types this might be helpful
     public float getHeatReqForSteam(VirtualFluid steamType) {
         if (steamType == ModFluids.STEAM.get()) {
-            return 100f;
+            return 130f;
         }
         return 0f;
     }
 
     public float steamMultiplier(VirtualFluid steamType) {
         if (steamType == ModFluids.STEAM.get()) {
-            return 10f;
+            return 1f;
         }
         return 0f;
     }
@@ -165,8 +165,8 @@ public class RbmkSteamChannelTE extends RbmkBaseTE {
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
-        tag.put("steam", steam.writeToNBT(tag));
-        tag.put("water", water.writeToNBT(tag));
+        tag.put("steam", steam.writeToNBT(new CompoundTag()));
+        tag.put("water", water.writeToNBT(new CompoundTag()));
         tag.putFloat("heat", this.heat);
         super.saveAdditional(tag);
     }

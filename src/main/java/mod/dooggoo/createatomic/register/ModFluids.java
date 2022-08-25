@@ -15,11 +15,11 @@ public class ModFluids {
 	public static final ResourceLocation STEAM_STILL = new ResourceLocation(BuildConfig.MODID, "fluid/steam_still");
 	public static final ResourceLocation STEAM_FLOW = new ResourceLocation(BuildConfig.MODID,"fluid/steam_flowing");
 
-	public static final FluidEntry<VirtualFluid> STEAM = registrate.virtualFluid("steam", STEAM_STILL, STEAM_FLOW)
-		.lang("Steam")
+	public static final FluidEntry<VirtualFluid> STEAM = registrate.virtualFluid("steam", STEAM_STILL, STEAM_STILL)
 		.tag(AllTags.forgeFluidTag("steam"))
 		.register();
 
             
     public static void register() {}
 }
+s

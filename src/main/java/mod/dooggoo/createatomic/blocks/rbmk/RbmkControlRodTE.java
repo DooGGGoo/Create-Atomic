@@ -40,13 +40,11 @@ public class RbmkControlRodTE extends RbmkBaseTE{
     }
 
     public static void tick(Level Level, BlockPos Pos, BlockState State, RbmkControlRodTE be) {
+        be.state = State;
+        if(be.state == null){
+            be.state = Level.getBlockState(Pos);
+        }
         if (!Level.isClientSide()){
-            be.state = State;
-
-            // ModNetworkPackets.INSTANCE.send(PacketDistributor.TRACKING_CHUNK
-            //         .with(() -> be.level.getChunkAt(be.worldPosition)), 
-            //     new RbmkControlRodS2CPacket(be.worldPosition, be.extention.getPercentage()));
-            
             be.sendToClient();
             be.transferHeat();
             be.passiveCooling();
@@ -63,7 +61,7 @@ public class RbmkControlRodTE extends RbmkBaseTE{
         else if(extention.getPercentage() == 3) extention.setPercentage(4);
         else if(extention.getPercentage() == 4) extention.setPercentage(4);
 
-        //this.updateBlockState(state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
+        this.updateBlockState(state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
         this.level.setBlockAndUpdate(pos, state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
         this.setChanged();
         this.level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
@@ -76,7 +74,7 @@ public class RbmkControlRodTE extends RbmkBaseTE{
         else if(extention.getPercentage() == 3) extention.setPercentage(2);
         else if(extention.getPercentage() == 4) extention.setPercentage(3);
 
-        //this.updateBlockState(state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
+        this.updateBlockState(state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
         this.level.setBlockAndUpdate(pos, state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
         this.setChanged();
         this.level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
