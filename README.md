@@ -4,8 +4,9 @@
  -
  Addon for Create that adds nuclear energy and radiation
  
+ **Mod Releases <a href="https://github.com/DooGGGoo/Create-Atomic/releases">_Here_</a>**.
  
- TODO:
+ TODO List:
  1. RBMK Reactor (Yes,like in HBM Nuclear Tech) [Almost done]
  2. Radiation and different ways to prevent it [~30% done]
  3. Various types of fuel and modifiers for is (Kinda like fireworks work in vanilla) so you can experiment with things and make your reactors go boom
