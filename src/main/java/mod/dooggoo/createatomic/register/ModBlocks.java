@@ -13,6 +13,7 @@ import mod.dooggoo.createatomic.blocks.rbmk.RbmkControlRodExtender;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkFuelRod;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkModerator;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkReflector;
+import mod.dooggoo.createatomic.blocks.rbmk.RbmkSteamChannel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -84,7 +85,7 @@ public class ModBlocks {
                 .simpleItem()
                 .register();
 
-        public static final BlockEntry<Block> RBMK_STEAM_CHANNEL = registrate.block("rbmk_steam_channel", Block::new)
+        public static final BlockEntry<RbmkSteamChannel> RBMK_STEAM_CHANNEL = registrate.block("rbmk_steam_channel", RbmkSteamChannel::new)
                 .initialProperties(() -> ModBlocks.RBMK_BASE.get())
                 .tag(BlockTags.NEEDS_IRON_TOOL)
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE)

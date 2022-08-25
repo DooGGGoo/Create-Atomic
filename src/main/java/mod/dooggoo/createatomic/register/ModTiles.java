@@ -11,6 +11,7 @@ import mod.dooggoo.createatomic.blocks.rbmk.RbmkControlRodTE;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkFuelRodTE;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkModeratorTE;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkReflectorTE;
+import mod.dooggoo.createatomic.blocks.rbmk.RbmkSteamChannelTE;
 
 public class ModTiles {
 
@@ -40,6 +41,10 @@ public class ModTiles {
     public static final BlockEntityEntry<RbmkConrolRodExtenderTE> RBMK_CONTROL_ROD_EXTENDER_TE = registrate.tileEntity("rbmk_control_rod_extender_te", RbmkConrolRodExtenderTE::new)
         .validBlocks(ModBlocks.RBMK_CONTROL_ROD_EXTENDER)
         .renderer(() -> RbmkConrolRodEntenderRenderer::new)
+        .register();
+
+    public static final BlockEntityEntry<RbmkSteamChannelTE> RBMK_STEAM_CHANNEL_TE = registrate.tileEntity("rbmk_steam_channel", RbmkSteamChannelTE::new)
+        .validBlocks(ModBlocks.RBMK_STEAM_CHANNEL)
         .register();
 
     public static void register() {}

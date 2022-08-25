@@ -29,6 +29,7 @@ public class CreateAtomic {
 		modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		//CreateRegistrate r = REGISTRATE.get();
 		ModNetworkPackets.register();
+		ModFluids.register();
 		ModItems.register();
 		ModBlocks.register();
 		ModEntities.register();

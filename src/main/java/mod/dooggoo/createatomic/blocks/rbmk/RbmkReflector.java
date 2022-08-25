@@ -20,6 +20,8 @@ public class RbmkReflector extends BaseEntityBlock {
         return ModTiles.RBMK_REFLECTOR_TE.create(pPos, pState);
     }
 
+    //Is this really needed?
+    //It is..
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
         return createTickerHelper(pBlockEntityType, ModTiles.RBMK_REFLECTOR_TE.get(), RbmkReflectorTE::tick);
