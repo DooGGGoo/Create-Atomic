@@ -155,11 +155,12 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{
                 level.setBlockAndUpdate(pos, Blocks.LAVA.defaultBlockState());
             }
             level.explode(null, pos.getX(), pos.getY(), pos.getZ(), 5, BlockInteraction.BREAK);
-            for(int i = 0; i < 8; i++) {
-                //                                                          position                                    speed
-                this.level.addParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, pos.getX(), pos.getY() + 0.5f, pos.getZ(), level.random.nextFloat() * .3f, 3.5f * (level.random.nextFloat() * .1f), level.random.nextFloat() * .3f);
-            } 
         }
+        
+        for(int i = 0; i < 8; i++) {
+            //                                                          position                                    speed
+            this.level.addParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, pos.getX(), pos.getY() + 0.5f, pos.getZ(), level.random.nextFloat() * .3f, 3.5f * (level.random.nextFloat() * .1f), level.random.nextFloat() * .3f);
+        } 
     }
 
     @Override
