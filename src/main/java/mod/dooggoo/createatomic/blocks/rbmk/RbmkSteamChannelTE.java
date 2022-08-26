@@ -2,9 +2,7 @@ package mod.dooggoo.createatomic.blocks.rbmk;
 
 import java.util.List;
 
-import com.simibubi.create.content.contraptions.fluids.VirtualFluid;
-
-import mod.dooggoo.createatomic.BuildConfig;
+import mod.dooggoo.createatomic.CreateAtomic;
 import mod.dooggoo.createatomic.register.ModFluids;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -16,6 +14,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -29,7 +28,7 @@ public class RbmkSteamChannelTE extends RbmkBaseTE {
 
     FluidTank water = new FluidTank(4000, f -> f.getFluid() == Fluids.WATER);
     FluidTank steam = new FluidTank(8000);
-    VirtualFluid steamType = ModFluids.STEAM.get();
+    Fluid steamType = ModFluids.STEAM.get();
 
     private IFluidHandler fluidHandler = new IFluidHandler() {
 		@Override
@@ -120,14 +119,14 @@ public class RbmkSteamChannelTE extends RbmkBaseTE {
     }
 
     //Currently this function is not necessary but if in future i will adding other steam types this might be helpful
-    public float getHeatReqForSteam(VirtualFluid steamType) {
+    public float getHeatReqForSteam(Fluid steamType) {
         if (steamType == ModFluids.STEAM.get()) {
             return 130f;
         }
         return 0f;
     }
 
-    public float steamMultiplier(VirtualFluid steamType) {
+    public float steamMultiplier(Fluid steamType) {
         if (steamType == ModFluids.STEAM.get()) {
             return 1f;
         }
@@ -137,11 +136,11 @@ public class RbmkSteamChannelTE extends RbmkBaseTE {
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         if (heat > overheatThreshold) {
-            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(BuildConfig.MODID + ".tooltip.rbmkbase.overheat").withStyle(ChatFormatting.GRAY)));
+            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(CreateAtomic.MODID + ".tooltip.rbmkbase.overheat").withStyle(ChatFormatting.GRAY)));
             tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + this.heat + " ").withStyle(ChatFormatting.RED)));
         }
         else {
-            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(BuildConfig.MODID + ".tooltip.rbmkbase.heat").withStyle(ChatFormatting.GRAY)));
+            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(CreateAtomic.MODID + ".tooltip.rbmkbase.heat").withStyle(ChatFormatting.GRAY)));
             tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + this.heat + " ").withStyle(ChatFormatting.GOLD)));
         }
         //tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(BuildConfig.MODID + ".tooltip.rbmksteamchannel.water").withStyle(ChatFormatting.GRAY)));

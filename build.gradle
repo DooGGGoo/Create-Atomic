@@ -1,27 +1,25 @@
 buildscript {
     repositories {
-        mavenCentral()
-        maven {url='https://repo.spongepowered.org/maven'}
+		maven { url = 'https://maven.minecraftforge.net' }
+		mavenCentral()
+        jcenter()
+        maven { url = 'https://repo.spongepowered.org/repository/maven-public' }
         maven { url = 'https://maven.parchmentmc.org' }
-        maven { url = 'https://files.minecraftforge.net/maven' }
-    }
+	}
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
-        classpath 'org.parchmentmc:librarian:1.+'
+		classpath "org.parchmentmc:librarian:${librarian_version}"
     }
 }
 
 plugins {
     id'com.github.gmazzo.buildconfig' version '3.0.1'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 apply plugin: 'org.spongepowered.mixin'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
 apply from: 'https://raw.githubusercontent.com/LordGrimmauld/gitinfo-collect/master/build.gradle'
 
 group = "mod.dooggoo.createatomic"
@@ -34,7 +32,7 @@ println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getPro
 minecraft {
     // Mappings (official or parchment) is a matter of preference. Parchment does map some method parameters though while keeping Class-/Method-/Fieldnames same as official.
     // mappings channel: "official", version: "${minecraft_version}"
-    mappings channel: 'parchment', version: "2022.07.10-${minecraft_version}" // https://ldtteam.jfrog.io/ui/native/parchmentmc-public/org/parchmentmc/data/parchment-1.18.2/
+    mappings channel: 'parchment', version: "${parchment_version}-${minecraft_version}" // https://ldtteam.jfrog.io/ui/native/parchmentmc-public/org/parchmentmc/data/parchment-1.18.2/
 
      accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -87,44 +85,41 @@ minecraft {
     }
 }
 
-configurations {
-    shade
-}
-
-shadowJar {
-    configurations = [project.configurations.shade]
-    relocate 'com.tterrag.registrate', "${group}.registrate"
-}
-
-reobf {
-    shadowJar {}
-}
-
-build.dependsOn shadowJar
-build.dependsOn reobfShadowJar
-
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-    maven {
-        url "https://maven.tterrag.com/"
-    }
+		maven {
+			url "https://maven.tterrag.com/"
+		}
+		
+		maven {
+		name = "Modrinth"
+		url = "https://api.modrinth.com/maven"
+		content {
+			includeGroup "maven.modrinth"
+		}
+	}
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    implementation fg.deobf("com.simibubi.create:Create:mc${create_version}")
-    implementation fg.deobf("com.jozufozu.flywheel:Flywheel-Forge:${flywheel_version}")
+    implementation fg.deobf("com.simibubi.create:create-${create_minecraft_version}:${create_version}:all") { transitive = false }
+    implementation fg.deobf("com.jozufozu.flywheel:flywheel-forge-${flywheel_minecraft_version}:${flywheel_version}")
+    compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-
-    def registrate = "com.tterrag.registrate:Registrate:MC${minecraft_version}-${registrate_version}"
-    implementation fg.deobf(registrate)
-    shade registrate
 }
 
 compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+compileJava {
+    options.compilerArgs = ['-Xdiags:verbose']
+}
 
 jar {
     manifest {
@@ -174,6 +169,6 @@ buildConfig {
     packageName = project.group
 }
 
-jar {
-    archiveClassifier.set('slim')
-}
+// jar {
+//     archiveClassifier.set('slim')
+// }

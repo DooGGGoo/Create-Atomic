@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 
 import com.simibubi.create.content.contraptions.goggles.IHaveGoggleInformation;
 
-import mod.dooggoo.createatomic.BuildConfig;
+import mod.dooggoo.createatomic.CreateAtomic;
 import mod.dooggoo.createatomic.api.Directions;
 import mod.dooggoo.createatomic.network.ModNetworkPackets;
 import mod.dooggoo.createatomic.network.packet.RbmkHeatS2CPacket;
@@ -166,11 +166,11 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{
 	public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         boolean added = IHaveGoggleInformation.super.addToGoggleTooltip(tooltip, isPlayerSneaking);
         if(heat > overheatThreshold){
-            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(BuildConfig.MODID + ".tooltip.rbmkbase.overheat").withStyle(ChatFormatting.GRAY)));
+            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(CreateAtomic.MODID+ ".tooltip.rbmkbase.overheat").withStyle(ChatFormatting.GRAY)));
             tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + this.heat + " ").withStyle(ChatFormatting.RED)));
         }
         else{
-            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(BuildConfig.MODID + ".tooltip.rbmkbase.heat").withStyle(ChatFormatting.GRAY)));
+            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(CreateAtomic.MODID + ".tooltip.rbmkbase.heat").withStyle(ChatFormatting.GRAY)));
             tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + this.heat + " ").withStyle(ChatFormatting.GOLD)));
         }
 		return added;

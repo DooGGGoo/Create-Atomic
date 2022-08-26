@@ -1,7 +1,7 @@
 package mod.dooggoo.createatomic.register;
 
 import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.simibubi.create.repack.registrate.util.entry.BlockEntityEntry;
+import com.tterrag.registrate.util.entry.BlockEntityEntry;
 
 import mod.dooggoo.createatomic.CreateAtomic;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkBaseTE;

@@ -1,7 +1,7 @@
 package mod.dooggoo.createatomic;
 
 import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.simibubi.create.repack.registrate.util.nullness.NonNullSupplier;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
 
 import mod.dooggoo.createatomic.network.ModNetworkPackets;
 import mod.dooggoo.createatomic.register.*;
@@ -18,12 +18,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-@Mod(BuildConfig.MODID)
+@Mod(CreateAtomic.MODID)
 public class CreateAtomic {
-	public static final Logger LOGGER = LogManager.getLogger(BuildConfig.MODID);
+	
+	public static final String MODID = "createatomic";
+	public static final Logger LOGGER = LogManager.getLogger(MODID);
 	public static IEventBus modEventBus;
 
-	public static final NonNullSupplier<CreateRegistrate> REGISTRATE = CreateRegistrate.lazy(BuildConfig.MODID);
+	public static final NonNullSupplier<CreateRegistrate> REGISTRATE = CreateRegistrate.lazy(MODID);
 
 	public CreateAtomic() {
 		modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

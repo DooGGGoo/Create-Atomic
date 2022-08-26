@@ -1,7 +1,8 @@
 package mod.dooggoo.createatomic.register.config;
 
 import com.simibubi.create.foundation.config.ConfigBase;
-import mod.dooggoo.createatomic.BuildConfig;
+
+import mod.dooggoo.createatomic.CreateAtomic;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-@Mod.EventBusSubscriber(modid = BuildConfig.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = CreateAtomic.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModConfigs {
 	// no instances
 	private ModConfigs() {

@@ -1,7 +1,5 @@
 package mod.dooggoo.createatomic.api.radiation.playerradiation;
 
-import com.jozufozu.flywheel.repack.joml.Math;
-
 import net.minecraft.nbt.CompoundTag;
 
 public class PlayerRadiationData {
@@ -9,28 +7,32 @@ public class PlayerRadiationData {
     private float radiation;
     public float radiationResistance;
 
+    public static float clamp(float min, float max, float val) {
+        return Math.max(min, Math.min(max, val));
+    }
+
     public float getRadiation() {
-        radiation = Math.clamp(0f, 2100f, radiation);
+        radiation = clamp(0f, 2100f, radiation);
         return radiation;
     }
 
     public void setRadiation(float radiation) {
-        this.radiation = Math.clamp(0f, 2100f, radiation);
+        this.radiation = clamp(0f, 2100f, radiation);
         this.radiation = radiation;
     }
 
     public void addRadiation(float Amout) {
-        this.radiation = Math.clamp(0f, 2100f, radiation);
+        this.radiation = clamp(0f, 2100f, radiation);
         this.radiation += Amout;
     }
 
     public void removeRadiation(float Amout) {
-        this.radiation = Math.clamp(0f, 2100f, radiation);
+        this.radiation = clamp(0f, 2100f, radiation);
         this.radiation -= Amout;
     }
 
     public void copyFrom(PlayerRadiationData source) {
-        this.radiation = Math.clamp(0f, 2100f, radiation);
+        this.radiation = clamp(0f, 2100f, radiation);
         this.radiation = source.getRadiation();
     }
 

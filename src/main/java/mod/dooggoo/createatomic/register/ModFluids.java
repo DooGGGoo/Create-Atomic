@@ -3,7 +3,7 @@ package mod.dooggoo.createatomic.register;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.contraptions.fluids.VirtualFluid;
 import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.simibubi.create.repack.registrate.util.entry.FluidEntry;
+import com.tterrag.registrate.util.entry.FluidEntry;
 
 import mod.dooggoo.createatomic.BuildConfig;
 import mod.dooggoo.createatomic.CreateAtomic;
@@ -22,4 +22,3 @@ public class ModFluids {
             
     public static void register() {}
 }
-s

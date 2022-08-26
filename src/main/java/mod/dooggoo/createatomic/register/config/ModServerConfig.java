@@ -3,7 +3,8 @@ package mod.dooggoo.createatomic.register.config;
 import com.simibubi.create.foundation.block.BlockStressDefaults;
 import com.simibubi.create.foundation.block.BlockStressValues;
 import com.simibubi.create.foundation.utility.Couple;
-import mod.dooggoo.createatomic.BuildConfig;
+
+import mod.dooggoo.createatomic.CreateAtomic;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -23,24 +24,24 @@ public class ModServerConfig extends ModConfigs.Config {
         protected void registerAll(ForgeConfigSpec.Builder builder) {
             builder.push("impact");
             BlockStressDefaults.DEFAULT_IMPACTS.forEach((r, i) -> {
-                if (r.getNamespace().equals(BuildConfig.MODID)) {
+                if (r.getNamespace().equals(CreateAtomic.MODID)) {
                     impacts.put(r, builder.define(r.getPath(), i));
                 }
             });
             builder.pop().push("capacities");
             BlockStressDefaults.DEFAULT_CAPACITIES.forEach((r, i) -> {
-                if (r.getNamespace().equals(BuildConfig.MODID)) {
+                if (r.getNamespace().equals(CreateAtomic.MODID)) {
                     capacities.put(r, builder.define(r.getPath(), i));
                 }
             });
             builder.pop().push("rpms");
             BlockStressDefaults.GENERATOR_SPEEDS.forEach((r, i) -> {
-                if (r.getNamespace().equals(BuildConfig.MODID)) {
+                if (r.getNamespace().equals(CreateAtomic.MODID)) {
                     rpms.put(r, builder.define(r.getPath(), i));
                 }
             });
             builder.pop();
-            BlockStressValues.registerProvider(BuildConfig.MODID, this);
+            BlockStressValues.registerProvider(CreateAtomic.MODID, this);
             super.registerAll(builder);
         }
 

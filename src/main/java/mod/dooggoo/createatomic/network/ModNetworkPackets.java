@@ -1,6 +1,6 @@
 package mod.dooggoo.createatomic.network;
 
-import mod.dooggoo.createatomic.BuildConfig;
+import mod.dooggoo.createatomic.CreateAtomic;
 import mod.dooggoo.createatomic.network.packet.RbmkControlRodS2CPacket;
 import mod.dooggoo.createatomic.network.packet.RbmkFuelRodS2CPacket;
 import mod.dooggoo.createatomic.network.packet.RbmkHeatS2CPacket;
@@ -22,7 +22,7 @@ public class ModNetworkPackets {
     public static void register()
     {
         SimpleChannel net = NetworkRegistry.ChannelBuilder
-            .named(new ResourceLocation(BuildConfig.MODID, "messages"))
+            .named(new ResourceLocation(CreateAtomic.MODID, "messages"))
             .networkProtocolVersion(() -> "1.0")
             .clientAcceptedVersions(s -> true)
             .serverAcceptedVersions(s -> true)

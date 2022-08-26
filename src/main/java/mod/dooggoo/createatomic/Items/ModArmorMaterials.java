@@ -3,7 +3,7 @@ package mod.dooggoo.createatomic.items;
 
 import java.util.function.Supplier;
 
-import mod.dooggoo.createatomic.BuildConfig;
+import mod.dooggoo.createatomic.CreateAtomic;
 import mod.dooggoo.createatomic.register.ModItems;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -59,7 +59,7 @@ public enum ModArmorMaterials implements ArmorMaterial{
      }
   
      public String getName() {
-        return BuildConfig.MODID + ":" + this.name;
+        return CreateAtomic.MODID + ":" + this.name;
      }
   
      public float getToughness() {

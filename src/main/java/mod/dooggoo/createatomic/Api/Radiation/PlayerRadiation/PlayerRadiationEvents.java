@@ -1,6 +1,6 @@
 package mod.dooggoo.createatomic.api.radiation.playerradiation;
 
-import mod.dooggoo.createatomic.BuildConfig;
+import mod.dooggoo.createatomic.CreateAtomic;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -12,7 +12,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = BuildConfig.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(modid = CreateAtomic.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class PlayerRadiationEvents 
 {
     @SubscribeEvent
@@ -22,7 +22,7 @@ public class PlayerRadiationEvents
         {
             if(!event.getObject().getCapability(PlayerRadiationDataProvider.PLAYER_RADIATION).isPresent())
             {
-                event.addCapability(new ResourceLocation(BuildConfig.MODID, "player_radiation_properties"), new PlayerRadiationDataProvider());
+                event.addCapability(new ResourceLocation(CreateAtomic.MODID, "player_radiation_properties"), new PlayerRadiationDataProvider());
             }
         }
     }    
