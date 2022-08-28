@@ -27,7 +27,7 @@ public class RbmkSteamChannel extends BaseEntityBlock {
         return createTickerHelper(pBlockEntityType, ModTiles.RBMK_STEAM_CHANNEL_TE.get(), RbmkSteamChannelTE::tick);
     }
 
-    // It took me fucking 2 days to figure out that i need to put this shit not only in rbmkbase block
+    // It took me fucking 2 days to figure out that I need to put this shit not only in rbmkbase block
     @SuppressWarnings("deprecation")
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {

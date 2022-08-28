@@ -18,6 +18,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraftforge.common.Tags;
 
 public class ModBlocks {
@@ -72,42 +73,42 @@ public class ModBlocks {
                 .register();
 
         public static final BlockEntry<RbmkControlRod> RBMK_CONTROL_ROD = registrate.block("rbmk_control_rod", RbmkControlRod::new)
-                .initialProperties(() -> ModBlocks.RBMK_BASE.get())
+                .initialProperties(ModBlocks.RBMK_BASE)
                 .tag(BlockTags.NEEDS_IRON_TOOL)
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .simpleItem()
                 .register();
 
         public static final BlockEntry<RbmkFuelRod> RBMK_FUEL_ROD = registrate.block("rbmk_fuel_rod", RbmkFuelRod::new)
-                .initialProperties(() -> ModBlocks.RBMK_BASE.get())
+                .initialProperties(ModBlocks.RBMK_BASE)
                 .tag(BlockTags.NEEDS_IRON_TOOL)
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .simpleItem()
                 .register();
 
         public static final BlockEntry<RbmkSteamChannel> RBMK_STEAM_CHANNEL = registrate.block("rbmk_steam_channel", RbmkSteamChannel::new)
-                .initialProperties(() -> ModBlocks.RBMK_BASE.get())
+                .initialProperties(ModBlocks.RBMK_BASE)
                 .tag(BlockTags.NEEDS_IRON_TOOL)
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .simpleItem()
                 .register();
 
         public static final BlockEntry<RbmkModerator>RBMK_MODERATOR = registrate.block("rbmk_moderator", RbmkModerator::new)
-                .initialProperties(() -> ModBlocks.RBMK_BASE.get())
+                .initialProperties(ModBlocks.RBMK_BASE)
                 .tag(BlockTags.NEEDS_IRON_TOOL)
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .simpleItem()
                 .register();
 
         public static final BlockEntry<RbmkReflector> RBMK_REFLECTOR = registrate.block("rbmk_reflector", RbmkReflector::new)
-                .initialProperties(() -> ModBlocks.RBMK_BASE.get())
+                .initialProperties(ModBlocks.RBMK_BASE)
                 .tag(BlockTags.NEEDS_IRON_TOOL)
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .simpleItem()
                 .register();
 
         public static final BlockEntry<RbmkControlRodExtender> RBMK_CONTROL_ROD_EXTENDER = registrate.block("rbmk_control_rod_extender", RbmkControlRodExtender::new)
-                .initialProperties(() -> ModBlocks.RBMK_BASE.get())
+                .initialProperties(ModBlocks.RBMK_BASE)
                 .tag(BlockTags.NEEDS_IRON_TOOL)
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .simpleItem()

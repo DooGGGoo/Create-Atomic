@@ -30,7 +30,7 @@ public class RbmkSteamChannelTE extends RbmkBaseTE {
     FluidTank steam = new FluidTank(8000);
     Fluid steamType = ModFluids.STEAM.get();
 
-    private IFluidHandler fluidHandler = new IFluidHandler() {
+    private final IFluidHandler fluidHandler = new IFluidHandler() {
 		@Override
 		public int getTanks() {
 			return 2;
@@ -57,10 +57,8 @@ public class RbmkSteamChannelTE extends RbmkBaseTE {
 
 		@Override
 		public boolean isFluidValid(int tank, FluidStack stack) {
-			if (tank == 0 && stack.getFluid() == Fluids.WATER)
-				return true;
-			return false;
-		}
+            return tank == 0 && stack.getFluid() == Fluids.WATER;
+        }
 
 		@Override
 		public int fill(FluidStack resource, FluidAction action) {

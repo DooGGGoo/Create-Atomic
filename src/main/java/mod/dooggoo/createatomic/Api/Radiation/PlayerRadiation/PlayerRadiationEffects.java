@@ -20,8 +20,6 @@ public class PlayerRadiationEffects {
             return;
         }
 
-        // TODO: add custom effects and tweak the values
-
         switch(getPlayerIrradiation(playerRadiation))
         {
             case 6:
@@ -73,19 +71,19 @@ public class PlayerRadiationEffects {
         if (radiation >= 1100f){
             return 6;
         }
-        else if (radiation >= 750f && radiation < 1100f){
+        else if (radiation >= 750f){
             return 5;
         }
-        else if (radiation >= 500f && radiation < 750f){
+        else if (radiation >= 500f){
             return 4;
         }
-        else if (radiation >= 250f && radiation < 500f){
+        else if (radiation >= 250f){
             return 3;
         }
-        else if (radiation >= 100f && radiation < 250f){
+        else if (radiation >= 100f){
             return 2;
         }
-        else if (radiation >= 50f && radiation < 100f){
+        else if (radiation >= 50f){
             return 1;
         }
         else return 0;

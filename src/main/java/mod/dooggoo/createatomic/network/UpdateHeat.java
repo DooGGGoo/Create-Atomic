@@ -5,7 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-@SuppressWarnings("resource")
 public class UpdateHeat {
     public static boolean updateHeat(BlockPos pos, float heat) {
        final BlockEntity be = Minecraft.getInstance().level.getBlockEntity(pos);

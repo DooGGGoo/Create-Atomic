@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 public class RbmkControlRodTE extends RbmkBaseTE{
-    public ExtentionPercentage extention = ExtentionPercentage.FULLIN;
+    public ExtentionPercentage extension = ExtentionPercentage.FULLIN;
     private BlockState state;
 
     public RbmkControlRodTE(BlockEntityType<?> type, BlockPos blockPos, BlockState blockState) {
@@ -23,7 +23,8 @@ public class RbmkControlRodTE extends RbmkBaseTE{
         HALF(2),
         QUARTERIN(3),
         FULLOUT(4);
-        
+
+
         private int percentage;
         
         ExtentionPercentage(int percentage) {
@@ -55,40 +56,43 @@ public class RbmkControlRodTE extends RbmkBaseTE{
     }
 
     public void extend() {
-        if(extention.getPercentage() == 0) extention.setPercentage(1);
-        else if(extention.getPercentage() == 1) extention.setPercentage(2);
-        else if(extention.getPercentage() == 2) extention.setPercentage(3);
-        else if(extention.getPercentage() == 3) extention.setPercentage(4);
-        else if(extention.getPercentage() == 4) extention.setPercentage(4);
+        if(extension.getPercentage() == 0) extension.setPercentage(1);
+        else if(extension.getPercentage() == 1) extension.setPercentage(2);
+        else if(extension.getPercentage() == 2) extension.setPercentage(3);
+        else if(extension.getPercentage() == 3) extension.setPercentage(4);
+        else if(extension.getPercentage() == 4) extension.setPercentage(4);
 
-        this.updateBlockState(state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
-        this.level.setBlockAndUpdate(pos, state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
+        this.updateBlockState(state.setValue(RbmkControlRod.EXTENTION, extension.getPercentage()));
+        assert this.level != null;
+        this.level.setBlockAndUpdate(pos, state.setValue(RbmkControlRod.EXTENTION, extension.getPercentage()));
         this.setChanged();
         this.level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
     }
 
     public void retract() {
-        if(extention.getPercentage() == 0) extention.setPercentage(0);
-        else if(extention.getPercentage() == 1) extention.setPercentage(0);
-        else if(extention.getPercentage() == 2) extention.setPercentage(1);
-        else if(extention.getPercentage() == 3) extention.setPercentage(2);
-        else if(extention.getPercentage() == 4) extention.setPercentage(3);
+        if(extension.getPercentage() == 0) extension.setPercentage(0);
+        else if(extension.getPercentage() == 1) extension.setPercentage(0);
+        else if(extension.getPercentage() == 2) extension.setPercentage(1);
+        else if(extension.getPercentage() == 3) extension.setPercentage(2);
+        else if(extension.getPercentage() == 4) extension.setPercentage(3);
 
-        this.updateBlockState(state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
-        this.level.setBlockAndUpdate(pos, state.setValue(RbmkControlRod.EXTENTION, Integer.valueOf(extention.getPercentage())));
+        this.updateBlockState(state.setValue(RbmkControlRod.EXTENTION, extension.getPercentage()));
+        if (this.level != null) {
+            this.level.setBlockAndUpdate(pos, state.setValue(RbmkControlRod.EXTENTION, extension.getPercentage()));
+        }
         this.setChanged();
         this.level.gameEvent(null, GameEvent.BLOCK_CHANGE, pos);
     }
     
     @Override
     protected void saveAdditional(CompoundTag tag) {
-        tag.putInt("extention", extention.getPercentage());
+        tag.putInt("extension", extension.getPercentage());
         super.saveAdditional(tag);
     }
 
     @Override
     public void load(CompoundTag tag) {
-        extention.percentage = tag.getInt("extention");
+        extension.percentage = tag.getInt("extension");
         super.load(tag);
     }
 
@@ -96,7 +100,7 @@ public class RbmkControlRodTE extends RbmkBaseTE{
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this, be -> {
             CompoundTag tag = new CompoundTag();
-            tag.putInt("extention", extention.getPercentage());
+            tag.putInt("extension", extension.getPercentage());
             this.saveAdditional(tag);
             return tag;
         });
@@ -116,7 +120,7 @@ public class RbmkControlRodTE extends RbmkBaseTE{
     @Override
     public CompoundTag getUpdateTag() {
         CompoundTag nbt = super.getUpdateTag();
-        nbt.putInt("extention", extention.getPercentage());
+        nbt.putInt("extension", extension.getPercentage());
         saveAdditional(nbt);
         return nbt;
     }

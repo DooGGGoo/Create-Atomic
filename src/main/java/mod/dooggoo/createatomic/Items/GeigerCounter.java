@@ -21,10 +21,9 @@ public class GeigerCounter extends Item {
     @Override
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) 
     {
-        if(entity instanceof Player) 
+        if(entity instanceof Player player)
         {
-            Player player = (Player) entity;
-            player.getCapability(PlayerRadiationDataProvider.PLAYER_RADIATION).ifPresent(data -> 
+            player.getCapability(PlayerRadiationDataProvider.PLAYER_RADIATION).ifPresent(data ->
             {
                 float rad = Math.abs(data.getRadiation());
                 t++;
@@ -38,12 +37,12 @@ public class GeigerCounter extends Item {
 
             if (isSelected)
             {
-                playGeigerSound(level, player, intencity(Math.abs(radPerSec)));
+                playGeigerSound(level, player, intensity(Math.abs(radPerSec)));
             }
         }
     }
 
-    private int intencity (float rps)
+    private int intensity(float rps)
     {
         if (rps <= 0f)
             return 0;
@@ -57,8 +56,7 @@ public class GeigerCounter extends Item {
             return 4;
         else if (rps >= 20 && rps < 25)
             return 5;
-        else if (rps >= 25);
-            return 6;
+        return 6;
     }
 
     private void playGeigerSound(Level level, Player player, int intencity)

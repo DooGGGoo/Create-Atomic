@@ -23,7 +23,7 @@ public class RbmkFuelRod extends BaseEntityBlock {
 
     public RbmkFuelRod(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(HASFUEL, Boolean.valueOf(false)));
+        this.registerDefaultState(this.stateDefinition.any().setValue(HASFUEL, false));
     }
     
     @Override
@@ -38,7 +38,7 @@ public class RbmkFuelRod extends BaseEntityBlock {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         RbmkFuelRodTE te = (RbmkFuelRodTE) pLevel.getBlockEntity(pPos);
         
-        if(te.interact(pPlayer, pHand, itemstack))
+        if(te != null && te.interact(pPlayer, pHand, itemstack))
             return InteractionResult.SUCCESS;
         else return InteractionResult.PASS;
     }

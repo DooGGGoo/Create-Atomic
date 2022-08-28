@@ -6,9 +6,9 @@ import com.simibubi.create.content.contraptions.base.KineticTileEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class RbmkConrolRodEntenderRenderer extends KineticTileEntityRenderer {
+public class RbmkConrolRodExtenderRenderer extends KineticTileEntityRenderer {
     
-	public RbmkConrolRodEntenderRenderer(BlockEntityRendererProvider.Context context) {
+	public RbmkConrolRodExtenderRenderer(BlockEntityRendererProvider.Context context) {
 		super(context);
 	}
 	

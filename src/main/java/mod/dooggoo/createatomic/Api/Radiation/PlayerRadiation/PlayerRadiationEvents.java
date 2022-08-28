@@ -30,7 +30,7 @@ public class PlayerRadiationEvents
     @SubscribeEvent
     public static void onPlayerCloned(PlayerEvent.Clone event)
     {
-        if (event.isWasDeath() == false)
+        if (!event.isWasDeath())
         {
             event.getOriginal().getCapability(PlayerRadiationDataProvider.PLAYER_RADIATION).ifPresent(oldData -> {
                 event.getPlayer().getCapability(PlayerRadiationDataProvider.PLAYER_RADIATION).ifPresent(newData -> {
@@ -49,7 +49,7 @@ public class PlayerRadiationEvents
             Player player = event.player;
             float playerRadiation = player.getCapability(PlayerRadiationDataProvider.PLAYER_RADIATION).map(PlayerRadiationData::getRadiation).orElse(0.0F);
             Level level = player.getLevel();
-            t += t;
+            t++;
 
             if (t >= 10)
             {

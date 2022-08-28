@@ -1,16 +1,17 @@
 package mod.dooggoo.createatomic.items;
 
-import java.util.List;
-
 import mod.dooggoo.createatomic.api.radiation.playerradiation.PlayerRadiationDataProvider;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+
+import java.util.List;
 
 public class RadioactiveItem extends Item {
     public RadioactiveItem(Properties properties) {
@@ -21,16 +22,15 @@ public class RadioactiveItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
-        tooltipComponents.add(new TranslatableComponent("§s§7" + Radiation + " RAD/s"));
+        tooltipComponents.add(new TextComponent(this.Radiation + " RAD/s").withStyle(ChatFormatting.GRAY));
     }
 
     @Override
     public void inventoryTick(ItemStack Stack, Level Level, Entity Entity, int SlotId, boolean IsSelected) 
     {
         float finalRadiation = (Radiation * Stack.getCount()) / 20;
-        if(Entity instanceof Player) 
+        if(Entity instanceof Player player)
         {
-            Player player = (Player) Entity;
             player.getCapability(PlayerRadiationDataProvider.PLAYER_RADIATION).ifPresent(data -> {
                 if(finalRadiation > data.radiationResistance)
                 {

@@ -59,7 +59,7 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
             be.setLevel(Level);
             be.pos = Pos;
         }
-        if (!be.level.isClientSide){
+        if (!(be.level != null && be.level.isClientSide)){
             be.transferHeat();
             be.passiveCooling();
             be.updateFlux();
@@ -83,10 +83,7 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
     }
 
     public boolean hasFuelRod(int slot){
-        if (inventory.getStackInSlot(slot).getItem() instanceof RbmkFuelItem){
-            return true;
-        }
-        return false;
+        return inventory.getStackInSlot(slot).getItem() instanceof RbmkFuelItem;
     }
 
     public void updateFlux() {
@@ -94,12 +91,12 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
             RbmkFuelItem fuel = (RbmkFuelItem) inventory.getStackInSlot(0).getItem();
             
             float fluxIn = getFluxFromType(fuel.inType);
-            float fluxOut = fuel.burnFuel(level, inventory.getStackInSlot(0), fluxIn);
+            float fluxOut = fuel.burnFuel(inventory.getStackInSlot(0), fluxIn);
 
             Type outType = fuel.outType;
 
             fuel.updateHeat(level, inventory.getStackInSlot(0));
-            heat += fuel.releaseHeat(level, inventory.getStackInSlot(0), heat);
+            heat += fuel.releaseHeat(inventory.getStackInSlot(0), heat);
             sendToClient();
 
             fluxFast = 0f;
@@ -117,13 +114,7 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
     }
 
     private boolean isValidFuel(ItemStack item) {
-        if (item.getItem() instanceof RbmkFuelItem) return true;
-        else return false;
-    }
-
-    public void setState(boolean value, BooleanProperty property) {
-        BlockState state = level.getBlockState(this.pos);
-        updateBlockState(state.setValue(property, value));
+        return item.getItem() instanceof RbmkFuelItem;
     }
 
     public boolean interact(Player player, InteractionHand hand, ItemStack itemInHand) {
@@ -133,7 +124,7 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
             inventory.setStackInSlot(0, itemInHand.copy());
             player.setItemInHand(hand, stored);
             //this.setState(!inventory.getStackInSlot(0).isEmpty() ? true : false, RbmkFuelRod.HASFUEL);
-            this.level.setBlockAndUpdate(pos, getBlockState().setValue(RbmkFuelRod.HASFUEL, !inventory.getStackInSlot(0).isEmpty() ? true : false));
+            this.level.setBlockAndUpdate(pos, getBlockState().setValue(RbmkFuelRod.HASFUEL, !inventory.getStackInSlot(0).isEmpty()));
             this.level.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6f, 0.6f, true);
             this.setChanged();
             return true;
@@ -143,7 +134,7 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
             if (!level.isClientSide)
                 player.spawnAtLocation(inventory.getStackInSlot(0).copy());
             inventory.setStackInSlot(0, ItemStack.EMPTY);
-            this.level.setBlockAndUpdate(pos, getBlockState().setValue(RbmkFuelRod.HASFUEL, !inventory.getStackInSlot(0).isEmpty() ? true : false));
+            this.level.setBlockAndUpdate(pos, getBlockState().setValue(RbmkFuelRod.HASFUEL, !inventory.getStackInSlot(0).isEmpty()));
             this.level.playLocalSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 0.6f, 0.6f, true);
             this.setChanged();
             return true;
@@ -152,11 +143,11 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
     }
 
     @SuppressWarnings("incomplete-switch")
-    public void recieveFlux(Type type, float flux) {
+    public void receiveFlux(Type type, float flux) {
         switch(type) {
         case FAST: fluxFast += flux; break;
         case SLOW: fluxSlow += flux; break;
-        }   
+        }
     }
 
     protected void emmitFlux(Type type, float Flux) {
@@ -180,10 +171,9 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
     {
         BlockEntity be = level.getBlockEntity(new BlockPos(x, y, z));
         
-        if(be instanceof RbmkFuelRodTE) {
-            RbmkFuelRodTE fuelRod = (RbmkFuelRodTE) be;
+        if(be instanceof RbmkFuelRodTE fuelRod) {
             if (hasFuelRod(0)) {
-                fuelRod.recieveFlux(fluxStream, flux);
+                fuelRod.receiveFlux(fluxStream, flux);
                 return 0f;
             }
         }
@@ -194,17 +184,16 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
         }
         
         if(be instanceof RbmkReflectorTE) {
-            this.recieveFlux(fluxStream, flux);
+            this.receiveFlux(fluxStream, flux);
             return 0f;
         }
 
-        if(be instanceof RbmkControlRodTE) {
-            RbmkControlRodTE controlRod = (RbmkControlRodTE) be;
-            if(controlRod.extention.getPercentage() == 0) {return 0f;}
-            else if(controlRod.extention.getPercentage() == 1) {return flux * 0.25f;}
-            else if(controlRod.extention.getPercentage() == 2) {return flux * 0.5f;}
-            else if(controlRod.extention.getPercentage() == 3) {return flux * 0.75f;}
-            else if(controlRod.extention.getPercentage() == 4) {return flux;}
+        if(be instanceof RbmkControlRodTE controlRod) {
+            if(controlRod.extension.getPercentage() == 0) {return 0f;}
+            else if(controlRod.extension.getPercentage() == 1) {return flux * 0.25f;}
+            else if(controlRod.extension.getPercentage() == 2) {return flux * 0.5f;}
+            else if(controlRod.extension.getPercentage() == 3) {return flux * 0.75f;}
+            else if(controlRod.extension.getPercentage() == 4) {return flux;}
         }
         
         if(be instanceof RbmkBaseTE) {
@@ -218,7 +207,7 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
     public enum Type {
 		FAST,
 		SLOW,
-        ANY;
+        ANY
     }
 
     protected static Type fluxStream;

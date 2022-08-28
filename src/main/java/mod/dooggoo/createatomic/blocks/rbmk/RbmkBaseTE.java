@@ -78,8 +78,7 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{
 
     protected void transferHeat()
     {
-        if (level == null)
-        return;
+        if (level == null) return;
         List<RbmkBaseTE> connected = new ArrayList<>();
         connected.add(this);
         float heatTotal = heat;
@@ -95,8 +94,7 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{
             {
                 BlockEntity blockEntity = level.getBlockEntity(new BlockPos(pos.getX() + dir.offsetX, pos.getY(), pos.getZ() + dir.offsetZ));
                 
-                if (blockEntity instanceof RbmkBaseTE){
-                    RbmkBaseTE base = (RbmkBaseTE) blockEntity;
+                if (blockEntity instanceof RbmkBaseTE base){
                     heatCache[i] = base;
                 }
             }

@@ -32,7 +32,7 @@ public class RbmkFuelItem extends RadioactiveItem {
         super(properties);
     }
 
-    public float burnFuel(Level level, ItemStack itemStack, float flux)
+    public float burnFuel(ItemStack itemStack, float flux)
     {
         flux += fluxFromSelfIgnition;
         float xenon = getXenonPoison(itemStack);
@@ -80,7 +80,7 @@ public class RbmkFuelItem extends RadioactiveItem {
 		}
     }
 
-    public float releaseHeat(Level level, ItemStack itemStack, float heat)
+    public float releaseHeat(ItemStack itemStack, float heat)
     {
         float blockHeat = getBlockHeat(itemStack);
 

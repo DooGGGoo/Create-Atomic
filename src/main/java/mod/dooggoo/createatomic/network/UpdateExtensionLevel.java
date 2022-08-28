@@ -5,13 +5,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-@SuppressWarnings("resource")
-public class UpdateExtentionLevel {
-    public static boolean updateExtentionLevel(BlockPos pos, int extention) {
+public class UpdateExtensionLevel {
+    public static boolean updateExtensionLevel(BlockPos pos, int extention) {
         final BlockEntity be = Minecraft.getInstance().level.getBlockEntity(pos);
         
         if (be instanceof RbmkControlRodTE rbmk) {
-            rbmk.extention.setPercentage(extention);
+            rbmk.extension.setPercentage(extention);
             return true;
         }
         return false;

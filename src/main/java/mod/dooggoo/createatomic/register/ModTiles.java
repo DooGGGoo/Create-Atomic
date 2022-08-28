@@ -5,7 +5,7 @@ import com.tterrag.registrate.util.entry.BlockEntityEntry;
 
 import mod.dooggoo.createatomic.CreateAtomic;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkBaseTE;
-import mod.dooggoo.createatomic.blocks.rbmk.RbmkConrolRodEntenderRenderer;
+import mod.dooggoo.createatomic.blocks.rbmk.RbmkConrolRodExtenderRenderer;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkConrolRodExtenderTE;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkControlRodTE;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkFuelRodTE;
@@ -40,7 +40,7 @@ public class ModTiles {
 
     public static final BlockEntityEntry<RbmkConrolRodExtenderTE> RBMK_CONTROL_ROD_EXTENDER_TE = registrate.tileEntity("rbmk_control_rod_extender_te", RbmkConrolRodExtenderTE::new)
         .validBlocks(ModBlocks.RBMK_CONTROL_ROD_EXTENDER)
-        .renderer(() -> RbmkConrolRodEntenderRenderer::new)
+        .renderer(() -> RbmkConrolRodExtenderRenderer::new)
         .register();
 
     public static final BlockEntityEntry<RbmkSteamChannelTE> RBMK_STEAM_CHANNEL_TE = registrate.tileEntity("rbmk_steam_channel", RbmkSteamChannelTE::new)
