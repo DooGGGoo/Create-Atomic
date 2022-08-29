@@ -3,14 +3,19 @@ package mod.dooggoo.createatomic.blocks.rbmk;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import mod.dooggoo.createatomic.CreateAtomic;
 import mod.dooggoo.createatomic.api.Directions;
 import mod.dooggoo.createatomic.items.RbmkFuelItem;
 import mod.dooggoo.createatomic.network.ModNetworkPackets;
 import mod.dooggoo.createatomic.network.packet.RbmkFuelRodS2CPacket;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -23,13 +28,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.network.PacketDistributor;
+
+import java.util.List;
 
 public class RbmkFuelRodTE extends RbmkBaseTE {
     public float fluxFast;
@@ -189,11 +195,11 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
         }
 
         if(be instanceof RbmkControlRodTE controlRod) {
-            if(controlRod.extension.getPercentage() == 0) {return 0f;}
-            else if(controlRod.extension.getPercentage() == 1) {return flux * 0.25f;}
-            else if(controlRod.extension.getPercentage() == 2) {return flux * 0.5f;}
-            else if(controlRod.extension.getPercentage() == 3) {return flux * 0.75f;}
-            else if(controlRod.extension.getPercentage() == 4) {return flux;}
+            if(controlRod.getPercentage() == 0) {return 0f;}
+            else if(controlRod.getPercentage() == 1) {return flux * 0.25f;}
+            else if(controlRod.getPercentage() == 2) {return flux * 0.5f;}
+            else if(controlRod.getPercentage() == 3) {return flux * 0.75f;}
+            else if(controlRod.getPercentage() == 4) {return flux;}
         }
         
         if(be instanceof RbmkBaseTE) {
@@ -220,6 +226,34 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
             case ANY: return fluxFast + fluxSlow;
             }
         return 0;
+    }
+
+    @Override
+    public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+        if(heat > overheatThreshold){
+            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(CreateAtomic.MODID+ ".tooltip.rbmkbase.overheat").withStyle(ChatFormatting.WHITE)));
+            tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + this.heat + " ").withStyle(ChatFormatting.RED)));
+        }
+        else{
+            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(CreateAtomic.MODID + ".tooltip.rbmkbase.heat").withStyle(ChatFormatting.WHITE)));
+            tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + this.heat + " ").withStyle(ChatFormatting.GOLD)));
+        }
+
+        if(this.hasFuelRod(0)){
+            RbmkFuelItem item = (RbmkFuelItem) inventory.getStackInSlot(0).getItem();
+            ItemStack itemStack = inventory.getStackInSlot(0);
+            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(CreateAtomic.MODID+ ".tooltip.rbmkrod.fuel").withStyle(ChatFormatting.WHITE)));
+
+                tooltip.add(new TextComponent(spacing + spacing).append("Flux: " + item.flux + "/t").withStyle(ChatFormatting.BLUE));
+                if (item.fluxFromSelfIgnition != 0) {
+                    tooltip.add(new TextComponent(spacing + spacing).append("Flux from self ignition: " + item.fluxFromSelfIgnition + "/t").withStyle(ChatFormatting.BLUE));
+                }
+                tooltip.add(new TextComponent(spacing + spacing).append("Flux Types (in/out): " + item.inType.name() + "/" + item.outType.name()).withStyle(ChatFormatting.GRAY));
+                tooltip.add(new TextComponent(spacing + spacing).append("Heat: " + item.getFuelHeat(itemStack) + "/" + maxHeat).withStyle(ChatFormatting.DARK_RED));
+                tooltip.add(new TextComponent(spacing + spacing).append("Fuel Depletion: " + (1 - item.getEnrichment(itemStack)) * 100f + "%").withStyle(ChatFormatting.GREEN));
+                tooltip.add(new TextComponent(spacing + spacing).append("Xenon: " + item.getXenonPoison(itemStack) + "%").withStyle(ChatFormatting.DARK_PURPLE));
+            }
+        return true;
     }
 
 //#region

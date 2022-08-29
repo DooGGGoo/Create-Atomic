@@ -134,11 +134,11 @@ public class RbmkSteamChannelTE extends RbmkBaseTE {
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         if (heat > overheatThreshold) {
-            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(CreateAtomic.MODID + ".tooltip.rbmkbase.overheat").withStyle(ChatFormatting.GRAY)));
+            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(CreateAtomic.MODID + ".tooltip.rbmkbase.overheat").withStyle(ChatFormatting.WHITE)));
             tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + this.heat + " ").withStyle(ChatFormatting.RED)));
         }
         else {
-            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(CreateAtomic.MODID + ".tooltip.rbmkbase.heat").withStyle(ChatFormatting.GRAY)));
+            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(CreateAtomic.MODID + ".tooltip.rbmkbase.heat").withStyle(ChatFormatting.WHITE)));
             tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + this.heat + " ").withStyle(ChatFormatting.GOLD)));
         }
         //tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(BuildConfig.MODID + ".tooltip.rbmksteamchannel.water").withStyle(ChatFormatting.GRAY)));

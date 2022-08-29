@@ -39,6 +39,8 @@
 
     "createatomic.tooltip.rbmkbase.overheat": "Looks like the reactor is overheated! Current heat is: ",
     "createatomic.tooltip.rbmkbase.heat": "Current heat is: ",
+    "createatomic.tooltip.rbmkcontrol.extension": "Extension level: ",
+    "createatomic.tooltip.rbmkrod.fuel": "Current fuel: ",
 	"createatomic.tooltip.rbmksteamchannel.water": "Water capacity: //NOT USED",
 	"createatomic.tooltip.rbmksteamchannel.steam": "Steam capacity: //NOT USED",
 

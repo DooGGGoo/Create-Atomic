@@ -17,7 +17,6 @@ import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 @Mod(CreateAtomic.MODID)
 public class CreateAtomic {
 	
@@ -29,7 +28,6 @@ public class CreateAtomic {
 
 	public CreateAtomic() {
 		modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-		//CreateRegistrate r = REGISTRATE.get();
 		ModNetworkPackets.register();
 		ModFluids.register();
 		ModItems.register();

@@ -30,7 +30,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.network.PacketDistributor;
 
-public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{    
+public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation {
     public RbmkBaseTE(BlockEntityType<?> type, BlockPos blockPos, BlockState blockState)  {
         super(type, blockPos, blockState);
     }
@@ -156,7 +156,6 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{
         }
         
         for(int i = 0; i < 8; i++) {
-            //                                                          position                                    speed
             this.level.addParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, pos.getX(), pos.getY() + 0.5f, pos.getZ(), level.random.nextFloat() * .3f, 3.5f * (level.random.nextFloat() * .1f), level.random.nextFloat() * .3f);
         } 
     }
@@ -165,11 +164,11 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation{
 	public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         boolean added = IHaveGoggleInformation.super.addToGoggleTooltip(tooltip, isPlayerSneaking);
         if(heat > overheatThreshold){
-            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(CreateAtomic.MODID+ ".tooltip.rbmkbase.overheat").withStyle(ChatFormatting.GRAY)));
+            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(CreateAtomic.MODID+ ".tooltip.rbmkbase.overheat").withStyle(ChatFormatting.WHITE)));
             tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + this.heat + " ").withStyle(ChatFormatting.RED)));
         }
         else{
-            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(CreateAtomic.MODID + ".tooltip.rbmkbase.heat").withStyle(ChatFormatting.GRAY)));
+            tooltip.add(new TextComponent(spacing).append(new TranslatableComponent(CreateAtomic.MODID + ".tooltip.rbmkbase.heat").withStyle(ChatFormatting.WHITE)));
             tooltip.add(new TextComponent(spacing).append(new TextComponent(" " + this.heat + " ").withStyle(ChatFormatting.GOLD)));
         }
 		return added;

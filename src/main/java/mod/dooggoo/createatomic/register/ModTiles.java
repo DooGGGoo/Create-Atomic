@@ -6,7 +6,7 @@ import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import mod.dooggoo.createatomic.CreateAtomic;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkBaseTE;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkConrolRodExtenderRenderer;
-import mod.dooggoo.createatomic.blocks.rbmk.RbmkConrolRodExtenderTE;
+import mod.dooggoo.createatomic.blocks.rbmk.RbmkControlRodExtenderTE;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkControlRodTE;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkFuelRodTE;
 import mod.dooggoo.createatomic.blocks.rbmk.RbmkModeratorTE;
@@ -38,7 +38,7 @@ public class ModTiles {
         .validBlocks(ModBlocks.RBMK_CONTROL_ROD)
         .register();
 
-    public static final BlockEntityEntry<RbmkConrolRodExtenderTE> RBMK_CONTROL_ROD_EXTENDER_TE = registrate.tileEntity("rbmk_control_rod_extender_te", RbmkConrolRodExtenderTE::new)
+    public static final BlockEntityEntry<RbmkControlRodExtenderTE> RBMK_CONTROL_ROD_EXTENDER_TE = registrate.tileEntity("rbmk_control_rod_extender_te", RbmkControlRodExtenderTE::new)
         .validBlocks(ModBlocks.RBMK_CONTROL_ROD_EXTENDER)
         .renderer(() -> RbmkConrolRodExtenderRenderer::new)
         .register();

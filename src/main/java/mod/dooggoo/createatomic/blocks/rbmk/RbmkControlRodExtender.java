@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class RbmkControlRodExtender extends KineticBlock implements ITE<RbmkConrolRodExtenderTE> {
+public class RbmkControlRodExtender extends KineticBlock implements ITE<RbmkControlRodExtenderTE> {
 
     public RbmkControlRodExtender(Properties properties) {
         super(properties);
@@ -24,8 +24,9 @@ public class RbmkControlRodExtender extends KineticBlock implements ITE<RbmkConr
 	}
 
     @Override
-    public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
-        worldIn.removeBlockEntity(pos);
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        level.getBlockEntity(pos).setRemoved();
+        level.removeBlockEntity(pos);
     }
 
 	@Override
@@ -39,13 +40,13 @@ public class RbmkControlRodExtender extends KineticBlock implements ITE<RbmkConr
 	}
 
     @Override
-    public BlockEntityType<? extends RbmkConrolRodExtenderTE> getTileEntityType() {
+    public BlockEntityType<? extends RbmkControlRodExtenderTE> getTileEntityType() {
         return ModTiles.RBMK_CONTROL_ROD_EXTENDER_TE.get();
     }
 
     @Override
-    public Class<RbmkConrolRodExtenderTE> getTileEntityClass() {
-        return RbmkConrolRodExtenderTE.class;
+    public Class<RbmkControlRodExtenderTE> getTileEntityClass() {
+        return RbmkControlRodExtenderTE.class;
     }
     
 }

@@ -117,7 +117,7 @@ public class RbmkFuelItem extends RadioactiveItem {
         setFloat(itemStack, "createatomic.heat", fuelHeat2);
     }
 
-    private float getFuelHeat(ItemStack itemStack) {
+    public float getFuelHeat(ItemStack itemStack) {
         return getFloat(itemStack, "createatomic.heat");
     }
 
@@ -138,7 +138,7 @@ public class RbmkFuelItem extends RadioactiveItem {
         return (float) (Math.sqrt(Flux) * flux / 10f);
     }
 
-    private float getEnrichment(ItemStack itemStack) {
+    public float getEnrichment(ItemStack itemStack) {
         return getYield(itemStack) / ((RbmkFuelItem) itemStack.getItem()).getYield(itemStack);
     }
 
@@ -159,7 +159,7 @@ public class RbmkFuelItem extends RadioactiveItem {
         return  getXenonPoison(itemStack) / 100f;
     }
 
-    private float getXenonPoison(ItemStack itemStack) {
+    public float getXenonPoison(ItemStack itemStack) {
         return getFloat(itemStack, "createatomic.xenon");
     }
 

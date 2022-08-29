@@ -27,7 +27,7 @@ public class PlayerRadiationEffects {
                 break;
 
             case 5:
-                if (random.nextInt(250) == 0) player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 35));
+                if (random.nextInt(250) == 0) player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 35, 1));
                 if (random.nextInt(300) == 0) player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 2));
                 if (random.nextInt(300) == 0) player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120, 1));
                 if (random.nextInt(500) == 0) player.addEffect(new MobEffectInstance(MobEffects.POISON, 45, 1));
@@ -36,7 +36,7 @@ public class PlayerRadiationEffects {
                 break;
 
             case 4:
-                if (random.nextInt(250) == 0) player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 25));
+                if (random.nextInt(250) == 0) player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 25, 1));
                 if (random.nextInt(350) == 0) player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 75, 1));
                 if (random.nextInt(350) == 0) player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 85, 1));
                 if (random.nextInt(500) == 0) player.addEffect(new MobEffectInstance(MobEffects.POISON, 30, 1));
@@ -44,21 +44,21 @@ public class PlayerRadiationEffects {
                 break;
 
             case 3:
-                if (random.nextInt(300) == 0) player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 15));
-                if (random.nextInt(400) == 0) player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 50, 0));
+                if (random.nextInt(300) == 0) player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 15, 1));
+                if (random.nextInt(400) == 0) player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 50, 1));
                 if (random.nextInt(350) == 0) player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 50, 1));
                 if (random.nextInt(350) == 0) player.addEffect(new MobEffectInstance(MobEffects.HUNGER, 45, 1));  
                 break;
 
             case 2:
-                if (random.nextInt(300) == 0) player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 15));
+                if (random.nextInt(300) == 0) player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 15, 1));
                 if (random.nextInt(400) == 0) player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 30, 1));
-                if (random.nextInt(400) == 0) player.addEffect(new MobEffectInstance(MobEffects.HUNGER, 30, 1));  
+                if (random.nextInt(400) == 0) player.addEffect(new MobEffectInstance(MobEffects.HUNGER, 35, 1));
                 break;
 
             case 1:
                 if (random.nextInt(300) == 0) player.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 15));
-                if (random.nextInt(400) == 0) player.addEffect(new MobEffectInstance(MobEffects.HUNGER, 20, 1));  
+                if (random.nextInt(400) == 0) player.addEffect(new MobEffectInstance(MobEffects.HUNGER, 25, 1));
                 break;
 
             case 0:
