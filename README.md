@@ -13,6 +13,9 @@
  4. More than 1 type of reactor, something like breeding reactor or RTG's for times, when you dont have much space/time to setup full reactor
  5. Usage for depleted uranium, maybe armor piercing rods for crossbow, recycling back to uranium or just decorative blocks
 
+# Screenshots
+![Alt text](/.readme/1.png?raw=true "1")
+![Alt text](/.readme/2.png?raw=true "2")
 
 # Credits:
 Thanks to <a href="https://github.com/HbmMods/Hbm-s-Nuclear-Tech-GIT">HbmMods</a> and <a href="https://github.com/Drillgon200/Hbm-s-Nuclear-Tech-GIT">Drillgon200</a> for amazing Nuclear Tech Mod and RBMK code, without it i would most likely be sitting here for 1000 years.
