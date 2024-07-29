@@ -34,20 +34,6 @@ public class ModItems {
         .tag(Tags.Items.NUGGETS)
         .register();
 
-    public static final ItemEntry<RbmkFuelItem> RBMK_FUEL = registrate.item("rbmk_fuel", RbmkFuelItem::new)
-        .properties(p -> p.stacksTo(1))
-        .onRegister(c -> c.Radiation = 2f)
-        .register();
-
-    public static final ItemEntry<RbmkFuelItem> NEUTRON_SOURCE = registrate.item("rbmk_neutron_source", RbmkFuelItem::new)
-        .properties(p -> p
-            .rarity(Rarity.UNCOMMON)
-            .stacksTo(1))
-        .onRegister(c -> c.Radiation = 4f)
-        .onRegister(c -> c.fluxFromSelfIgnition = 4f)
-        .onRegister(c -> c.flux = 8f)
-        .register();
-
     public static final ItemEntry<RadioactiveItem> ENRICHED_URANIUM = registrate.item("enriched_uranium", RadioactiveItem::new)
         .onRegister(c -> c.Radiation = 1.2f)
         .register();
@@ -64,6 +50,32 @@ public class ModItems {
         .properties(p -> p.rarity(Rarity.EPIC))
         .properties(p -> p.stacksTo(1))
         .register();
+
+    //RBMK Fuels
+    public static final ItemEntry<RbmkFuelItem> RBMK_FUEL = registrate.item("rbmk_fuel", RbmkFuelItem::new)
+            .properties(p -> p.stacksTo(1))
+            .onRegister(c -> c.Radiation = 2f)
+            .onRegister(c -> c.setBurnFunc(RbmkFuelItem.FuelFunction.SQUARE_ROOT))
+            .register();
+
+    public static final ItemEntry<RbmkFuelItem> NEUTRON_SOURCE = registrate.item("rbmk_neutron_source", RbmkFuelItem::new)
+            .properties(p -> p
+                    .rarity(Rarity.UNCOMMON)
+                    .stacksTo(1))
+            .onRegister(c -> c.Radiation = 4f)
+            .onRegister(c -> c.setBurnFunc(RbmkFuelItem.FuelFunction.LOG_TEN))
+            .onRegister(c -> c.fluxFromSelfIgnition = 4f)
+            .onRegister(c -> c.flux = 8f)
+            .register();
+
+    public static final ItemEntry<RbmkFuelItem> RBMK_FUEL_PLUTONIUM = registrate.item("rbmk_fuel_plutonium", RbmkFuelItem::new)
+            .properties(p -> p.stacksTo(1))
+            .onRegister(c -> c.setBurnFunc(RbmkFuelItem.FuelFunction.QUADRATIC))
+            .onRegister(c -> c.Radiation = 14f)
+            .onRegister(c -> c.fluxFromSelfIgnition = 8f)
+            .onRegister(c -> c.flux = 16f)
+            .register();
+
 
     //Armor items
     public static final ItemEntry<? extends PlatedIronArmorItem>

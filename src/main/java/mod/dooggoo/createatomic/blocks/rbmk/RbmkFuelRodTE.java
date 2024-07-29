@@ -11,6 +11,7 @@ import mod.dooggoo.createatomic.network.packet.RbmkFuelRodS2CPacket;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
@@ -24,7 +25,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -41,7 +44,6 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
     public float fluxFast;
     public float fluxSlow;
     public boolean hasFuel;
-    public static float maxHeat = 1520f;
 
     public final ItemStackHandler inventory = new ItemStackHandler(1){
         @Override
@@ -70,7 +72,6 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
             be.passiveCooling();
             be.updateFlux();
             be.sendToClient();
-            be.onMeltdown();
         }
 
         if (be.hasFuel) {
@@ -79,6 +80,7 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
         else be.getBlockState().setValue(RbmkFuelRod.HASFUEL, false);
 
         be.onOverheat();
+        be.onMeltdown();
     }
 
     @Override
@@ -249,9 +251,7 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
                     tooltip.add(new TextComponent(spacing + spacing).append("Flux from self ignition: " + item.fluxFromSelfIgnition + "/t").withStyle(ChatFormatting.BLUE));
                 }
                 tooltip.add(new TextComponent(spacing + spacing).append("Flux Types (in/out): " + item.inType.name() + "/" + item.outType.name()).withStyle(ChatFormatting.GRAY));
-                tooltip.add(new TextComponent(spacing + spacing).append("Heat: " + item.getFuelHeat(itemStack) + "/" + maxHeat).withStyle(ChatFormatting.DARK_RED));
-                tooltip.add(new TextComponent(spacing + spacing).append("Fuel Depletion: " + (1 - item.getEnrichment(itemStack)) * 100f + "%").withStyle(ChatFormatting.GREEN));
-                tooltip.add(new TextComponent(spacing + spacing).append("Xenon: " + item.getXenonPoison(itemStack) + "%").withStyle(ChatFormatting.DARK_PURPLE));
+                tooltip.add(new TextComponent("Flux Function: " + item.funcDesc(itemStack)));
             }
         return true;
     }
@@ -326,6 +326,25 @@ public class RbmkFuelRodTE extends RbmkBaseTE {
     }
 
 //#endregion
+
+    @Override
+    public void onMeltdown()
+    {
+        if (heat < maxHeat) {return;}
+        if(!level.isClientSide()){
+            //blow up
+            if(level.random.nextInt(2) == 0){
+                level.setBlockAndUpdate(pos, Blocks.LAVA.defaultBlockState());
+            }
+            level.explode(null, pos.getX(), pos.getY(), pos.getZ(), 8, Explosion.BlockInteraction.BREAK);
+        }
+        for (int i = 0; i < 360; i++) {
+            if (i % 10 == 0) {
+                level.addParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE.getType(), pos.getX(), pos.getY(), pos.getZ(),
+                        Math.cos(i) * 0.8f, 3.0f, Math.sin(i) * 0.8f);
+            }
+        }
+    }
 
     public void drops() {
         for(int i = 0; i < inventory.getSlots(); i++) {

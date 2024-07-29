@@ -35,10 +35,10 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation {
         super(type, blockPos, blockState);
     }
 
-    public static float passiveHeatLoss = 0.16f;
-    public static float overheatThreshold = 1025f;
+    public static float passiveHeatLoss = 1.5f;
+    public static float overheatThreshold = 1225f;
     public float heat = 16f;
-    public static float maxHeat = 1300f;
+    public static float maxHeat = 1520f;
 
 
     public static void tick(Level Level, BlockPos Pos, BlockState State, RbmkBaseTE be) 
@@ -152,12 +152,8 @@ public class RbmkBaseTE extends BlockEntity implements IHaveGoggleInformation {
             if(level.random.nextInt(2) == 0){
                 level.setBlockAndUpdate(pos, Blocks.LAVA.defaultBlockState());
             }
-            level.explode(null, pos.getX(), pos.getY(), pos.getZ(), 5, BlockInteraction.BREAK);
+            level.explode(null, pos.getX(), pos.getY(), pos.getZ(), 8, BlockInteraction.BREAK);
         }
-        
-        for(int i = 0; i < 8; i++) {
-            this.level.addParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, pos.getX(), pos.getY() + 0.5f, pos.getZ(), level.random.nextFloat() * .3f, 3.5f * (level.random.nextFloat() * .1f), level.random.nextFloat() * .3f);
-        } 
     }
 
     @Override
